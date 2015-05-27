@@ -105,6 +105,10 @@
         var aDistinctUserIDs = Object.keys(oUserIDs);
         var convertedUserNamesCounter = 0;
 
+        if(aDistinctUserIDs.length === 0){
+            deferedConvertedString.resolve(convertedString);
+        }
+
         //Replace the user IDs with the real names
         for (var i = 0; i < aDistinctUserIDs.length; i++) {
             var userId = aDistinctUserIDs[i];
