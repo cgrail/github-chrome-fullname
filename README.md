@@ -3,6 +3,12 @@ SAP GitHub Full-Name
 
 Chrome extension to display full-name(s) instead of SAP D- / I-User in GitHub Enterprise.
 
+Installation
+------------
+
+Please go to Chrome Webstore and install the following Extension:
+https://chrome.google.com/webstore/detail/sap-github-full-name/dpbnhgcdklhbhlemnffdbikcbfggcocd
+
 Todo
 ----
 
