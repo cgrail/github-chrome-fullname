@@ -1,6 +1,9 @@
 (function() {
     "use strict";
 
+    // Matches the following user User Ids D012345, d012345, I012345, i012345, C0123456, c0123456
+    var userIdRegex = /[di]\d{6}|c\d{7}/gi;
+
     //Mapping User IDs to real Names
     var oUserMap = {};
 
@@ -134,7 +137,7 @@
                     var jqThis = jQuery(this);
 
                     //Check if there are user IDs
-                    var aUserIds = jqThis.attr("aria-label").match(/[D,I,d,i][0-9]{6}|[C,c][0-9]{7}/g);
+                    var aUserIds = jqThis.attr("aria-label").match(userIdRegex);
                     if (aUserIds) {
                         //Replace the tooltip
                         getConvertedString(jqThis.attr("aria-label"), aUserIds).done(function(convertedString){
@@ -150,7 +153,7 @@
                 if (this.nodeType === 3 && this.nodeValue) {
 
                     //Check if there are user IDs
-                    var aUserIds = this.nodeValue.match(/[D,I,d,i][0-9]{6}|[C,c][0-9]{7}/g);
+                    var aUserIds = this.nodeValue.match(userIdRegex);
                     if (aUserIds) {
                         //Getting the jQuery reference
                         var jqThis = jQuery(this);
