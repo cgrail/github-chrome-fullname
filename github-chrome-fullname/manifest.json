@@ -7,7 +7,7 @@
     } ],
     "description":  "Display Full-Name instead of Login Name on SAP GitHub Enterprise",
     "name":         "SAP GitHub Full-Name",
-    "version":      "0.1",
+    "version":      "0.2",
     "icons": { "16": "icon16.png",
            "48": "icon48.png",
           "128": "icon128.png" }
