@@ -1,14 +1,21 @@
 {
+    "name": "SAP GitHub Full-Name",
+    "description": "Display Full-Name instead of Login Name on SAP GitHub Enterprise",
+    "version": "0.2.1",
     "manifest_version": 2,
-    "content_scripts": [ {
-        "js":               [ "jquery-2.1.4.min.js", "github_fullname.user.js" ],
-        "matches":          [ "https://github.wdf.sap.corp/*", "https://huboard.mo.sap.corp/*"],
-        "run_at": "document_end"
-    } ],
-    "description":  "Display Full-Name instead of Login Name on SAP GitHub Enterprise",
-    "name":         "SAP GitHub Full-Name",
-    "version":      "0.2",
-    "icons": { "16": "icon16.png",
-           "48": "icon48.png",
-          "128": "icon128.png" }
+    "content_scripts": [{
+        "js": [
+            "jquery-2.1.4.min.js",
+            "github_fullname.user.js"
+        ],
+        "matches": [
+            "https://github.wdf.sap.corp/*",
+            "https://huboard.mo.sap.corp/*"
+        ]
+    }],
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    }
 }
