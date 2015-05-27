@@ -24,10 +24,10 @@
         "self": ".vcard-username"
     }];
 
-    function isAllowedUrl(){
+    function isAllowedUrl() {
         var currentUrl = window.location.href;
         for (var i = 0; i < aUrlExceptions.length; i++) {
-            if(currentUrl.indexOf(aUrlExceptions[i]) !== -1){
+            if (currentUrl.indexOf(aUrlExceptions[i]) !== -1) {
                 return false;
             }
         }
@@ -108,12 +108,12 @@
         //Replace the user IDs with the real names
         for (var i = 0; i < aDistinctUserIDs.length; i++) {
             var userId = aDistinctUserIDs[i];
-            loadUserName(userId).done(function(userName){
+            loadUserName(userId).done(function(userName) {
                 convertedUserNamesCounter++;
                 if (userName) {
                     convertedString = convertedString.replace(userId, userName);
                 }
-                if(convertedUserNamesCounter === aDistinctUserIDs.length){
+                if (convertedUserNamesCounter === aDistinctUserIDs.length) {
                     deferedConvertedString.resolve(convertedString);
                 }
             });
@@ -140,7 +140,11 @@
                     var aUserIds = jqThis.attr("aria-label").match(userIdRegex);
                     if (aUserIds) {
                         //Replace the tooltip
-                        getConvertedString(jqThis.attr("aria-label"), aUserIds).done(function(convertedString){
+                        getConvertedString(jqThis.attr("aria-label"), aUserIds).done(function(convertedString) {
+                            // The promise might be resolved after a navigation and destruction of the current DOM node
+                            if (!jqThis) {
+                                return;
+                            }
                             jqThis.attr("aria-label", convertedString);
                         });
                     }
@@ -161,7 +165,11 @@
                         //Check if we are allowed to replace this text
                         if (replacementAllowed(jqThis)) {
                             //Replace the text
-                            getConvertedString(currentNode.nodeValue, aUserIds).done(function(convertedString){
+                            getConvertedString(currentNode.nodeValue, aUserIds).done(function(convertedString) {
+                                // The promise might be resolved after a navigation and destruction of the current DOM node
+                                if (!currentNode) {
+                                    return;
+                                }
                                 currentNode.nodeValue = convertedString;
                             });
 
@@ -177,14 +185,14 @@
 
     // Check DOM size every second. After change of DOM elements replace user Ids.
     var lastDomSize;
-    window.setInterval(function () {
-        if(!isAllowedUrl()){
+    window.setInterval(function() {
+        if (!isAllowedUrl()) {
             return;
         }
-        var currentDomSize =document.getElementsByTagName("*").length;
+        var currentDomSize = document.getElementsByTagName("*").length;
         if (currentDomSize != lastDomSize) {
-          lastDomSize = currentDomSize;
-          replaceUserIDs();
+            lastDomSize = currentDomSize;
+            replaceUserIDs();
         }
     }, 1000);
 
