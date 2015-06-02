@@ -1,11 +1,13 @@
 {
-    "name": "SAP GitHub Full-Name",
+    "name": "GitHub Full-Name for SAP GitHub Enterprise instance",
     "description": "Display Full-Name instead of Login Name on SAP GitHub Enterprise",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "manifest_version": 2,
     "content_scripts": [{
         "js": [
-            "jquery-2.1.4.min.js",
+            "vendor/jquery-2.1.4.min.js",
+            "ReplaceRestricter.js",
+            "UseridReplacer.js",
             "github_fullname.user.js"
         ],
         "matches": [
@@ -14,8 +16,8 @@
         ]
     }],
     "icons": {
-        "16": "icon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
     }
 }

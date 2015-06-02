@@ -1,0 +1,27 @@
+{
+  "name": "github-chrome-fullname",
+  "version": "0.2.1",
+  "description": "Display Full-Name instead of Login Name on SAP GitHub Enterprise",
+  "main": "Gruntfile.js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-connect": "^0.10.1",
+    "grunt-contrib-jasmine": "^0.8.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-eslint": "^13.0.0",
+    "grunt-notify": "^0.4.1",
+    "grunt-template-jasmine-istanbul": "^0.3.3",
+    "jasmine-ajax": "^3.1.1",
+    "jasmine-jquery": "^2.1.0",
+    "jquery": "^2.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cgrail/github-chrome-fullname.git"
+  },
+  "author": "Christian Grail",
+  "bugs": {
+    "url": "https://github.com/cgrail/github-chrome-fullname/issues"
+  },
+  "homepage": "https://github.com/cgrail/github-chrome-fullname"
+}

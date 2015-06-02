@@ -1,2 +1,6 @@
 *.pem
 *.zip
+node_modules
+.grunt
+_SpecRunner.html
+temp
