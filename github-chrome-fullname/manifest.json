@@ -1,7 +1,7 @@
 {
     "name": "GitHub Full-Name for SAP GitHub Enterprise instance",
     "description": "Display Full-Name instead of Login Name on SAP GitHub Enterprise",
-    "version": "0.2.2",
+    "version": "0.3",
     "manifest_version": 2,
     "content_scripts": [{
         "js": [

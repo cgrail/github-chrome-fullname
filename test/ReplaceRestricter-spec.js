@@ -34,6 +34,11 @@ describe("ReplaceRestricterTest", function() {
         expect(restricter.isReplacementAllowed(jQuery("#vcardUserName"))).toBe(false);
     });
 
+    it("should not be allowed to replace content which is intended for the command line", function() {
+        loadFixtures("testCopyCommandLine.html");
+        expect(restricter.isReplacementAllowed(jQuery("#gitCheckoutCommand"))).toBe(false);
+    });
+
     it("create a new issue is not an allowed url", function() {
         expect(restricter.isAllowedUrl("http://corporate.github/issues/new")).toBe(false);
     });

@@ -14,6 +14,8 @@ function ReplaceRestricter() {
     }, {
         "parents": ".form-content" // Edit comment text area
     }, {
+        "parents": ".copyable-terminal" // UserIds which are commands for the terminal shouldn't be replaced
+    }, {
         "self": ".vcard-username"
     }];
 }
