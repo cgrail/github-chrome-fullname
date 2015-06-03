@@ -3,3 +3,9 @@ node_js:
 - "0.12"
 before_install: npm install -g grunt-cli
 install: npm install
+after_success:
+  - codeclimate < ./temp/lcov/lcov.info
+addons:
+  code_climate:
+    repo_token:
+      secure: 0eee0fc7b4fcd8be7b534a0ce36cd0d76a7e54ed617f89d880816a0d3a2ddcd3
