@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cgrail/github-chrome-fullname.svg?branch=master)](https://travis-ci.org/cgrail/github-chrome-fullname)
+
 SAP GitHub Full-Name
 =====================
 
