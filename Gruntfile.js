@@ -82,5 +82,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask("test", ["eslint", "jasmine"]);
+    grunt.registerTask("testCoveralls", ["test", "coveralls:allTests"]);
     grunt.registerTask("default", ["test", "connect", "watch"]);
 };
