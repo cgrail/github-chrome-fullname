@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/cgrail/github-chrome-fullname.svg?branch=master)](https://travis-ci.org/cgrail/github-chrome-fullname)
+[![Coverage Status](https://coveralls.io/repos/cgrail/github-chrome-fullname/badge.svg?branch=master)](https://coveralls.io/r/cgrail/github-chrome-fullname?branch=master)
 
 SAP GitHub Full-Name
 =====================
