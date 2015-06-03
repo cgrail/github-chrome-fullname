@@ -1,78 +1,65 @@
 "use strict";
 
-function UserIdReplacer(githubUrl) {
-    this._userIdRegex = /[di]\d{6}|c\d{7}/gi;
-    this._deferredUserMap = {};
-    this.githubUserApiUrl = githubUrl + "/api/v3/users/";
+function UserIdReplacer(restricter, userIdStringReplacer) {
+    this.stringReplacer = userIdStringReplacer;
+    this.restricter = restricter;
 }
 
-UserIdReplacer.prototype.replaceUserIds = function(sourceString) {
-    var deferedConvertedString = jQuery.Deferred();
-    var convertedString = sourceString;
+//Crawls through the whole document replacing user IDs with real names
+UserIdReplacer.prototype.replaceUserIDs = function() {
 
-    if (!sourceString || sourceString.trim().length === 0) {
-        return deferedConvertedString.resolve(convertedString);
+    if (!this.restricter.isAllowedUrl(window.location.href)) {
+        return;
     }
 
-    var aUserIds = sourceString.match(this._userIdRegex);
+    var that = this;
 
-    if (aUserIds === null || aUserIds.length === 0) {
-        return deferedConvertedString.resolve(convertedString);
-    }
+    //Crawl through the whole DOM tree
+    jQuery("*", "body")
+        .andSelf()
+        .contents()
+        .each(function() {
 
-    var aDistinctUserIDs = this.getDistinctUserIds(aUserIds);
+            //Check if this is a tooltip type
+            if (this.nodeType === 1 && this.attributes.getNamedItem("aria-label")) {
+                that.replaceTooltip(jQuery(this));
+                return;
+            }
 
-    //Replace the user IDs with the real names
-    var convertedUserNamesCounter = 0;
-    for (var j = 0; j < aDistinctUserIDs.length; j++) {
-        var userId = aDistinctUserIDs[j];
-        this.loadUserName(userId).done(function(userName) {
-            convertedUserNamesCounter++;
-            convertedString = convertedString.replace(userId, userName);
-            if (convertedUserNamesCounter === aDistinctUserIDs.length) {
-                deferedConvertedString.resolve(convertedString);
+            //Check if this is a text type
+            if (this.nodeType === 3 && this.nodeValue) {
+                that.replaceNode(this);
+                return;
             }
         });
-    }
-
-    //Done
-    return deferedConvertedString;
 };
 
-UserIdReplacer.prototype.getDistinctUserIds = function(userIds) {
-    //Create a distinct set of user IDs
-    var oUserIDs = {};
-    for (var i = 0; i < userIds.length; i++) {
-        oUserIDs[userIds[i]] = true;
-    }
-    var aDistinctUserIDs = Object.keys(oUserIDs);
-    return aDistinctUserIDs;
+UserIdReplacer.prototype.replaceTooltip = function(element){
+    //Getting the jQuery reference
+    var jqElement = jQuery(element);
+    var ariaLabel = jqElement.attr("aria-label");
+    this.stringReplacer.replaceUserIds(ariaLabel).done(function(replacedAriaLabel){
+        jqElement.attr("aria-label", replacedAriaLabel);
+    });
 };
 
-//Lazy loads real user names from github
-UserIdReplacer.prototype.loadUserName = function(userId) {
-    //Check if we didn't already load that ID
-    if (!this._deferredUserMap[userId]) {
-        var deferedUserName = jQuery.Deferred();
-        this._deferredUserMap[userId] = deferedUserName;
-        //Load the real name
-        jQuery.ajax({
-            url: this.githubUserApiUrl + userId,
-            dataType: "json",
-            success: function(oData) {
-                //Check if the user entered a real name
-                if (oData.name) {
-                    deferedUserName.resolve(oData.name);
-                }
-                //Otherwise just use the user ID
-                else {
-                    deferedUserName.resolve(userId);
-                }
-            },
-            error: function() {
-                deferedUserName.resolve(userId);
-            }
-        });
-    }
-    return this._deferredUserMap[userId];
+UserIdReplacer.prototype.replaceNode = function(element){
+    //Getting the jQuery reference
+    var jqElement = jQuery(element);
+    var oldValue = element.nodeValue;
+    var that = this;
+    this.stringReplacer.replaceUserIds(oldValue).done(function(replacedNodeValue){
+        if(!replacedNodeValue || replacedNodeValue.trim().length === 0){
+            return;
+        }
+        if(oldValue === replacedNodeValue){
+            return;
+        }
+
+        //Check if we are allowed to replace this text
+        if (!that.restricter.isReplacementAllowed(jqElement)) {
+            return;
+        }
+        element.nodeValue = replacedNodeValue;
+    });
 };

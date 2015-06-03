@@ -29,6 +29,11 @@ describe("ReplaceRestricterTest", function() {
         expect(restricter.isReplacementAllowed(jQuery("#elementWithFormContentAsParent"))).toBe(false);
     });
 
+    it("should not be allowed to replace an element which is a vcard", function() {
+        loadFixtures("testGithubCommits.html");
+        expect(restricter.isReplacementAllowed(jQuery("#vcardUserName"))).toBe(false);
+    });
+
     it("create a new issue is not an allowed url", function() {
         expect(restricter.isAllowedUrl("http://corporate.github/issues/new")).toBe(false);
     });

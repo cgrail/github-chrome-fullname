@@ -39,13 +39,13 @@ module.exports = function(grunt) {
                     coverage: "temp/coverage/coverage.json",
                     report: "temp/coverage",
                     files: [
-                        "github-chrome-fullname/ReplaceRestricter.js",
-                        "github-chrome-fullname/UserIdReplacer.js"
+                        "github-chrome-fullname/*.js",
+                        "!github-chrome-fullname/index.js"
                     ],
                     thresholds: {
-                        lines: 90,
-                        statements: 90,
-                        branches: 90,
+                        lines: 100,
+                        statements: 100,
+                        branches: 100,
                         functions: 100
                     }
                 },

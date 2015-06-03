@@ -7,8 +7,9 @@
         "js": [
             "vendor/jquery-2.1.4.min.js",
             "ReplaceRestricter.js",
-            "UseridReplacer.js",
-            "github_fullname.user.js"
+            "UserIdStringReplacer.js",
+            "UserIdReplacer.js",
+            "index.js"
         ],
         "matches": [
             "https://github.wdf.sap.corp/*",
