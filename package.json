@@ -8,6 +8,7 @@
     "grunt-contrib-connect": "^0.10.1",
     "grunt-contrib-jasmine": "^0.8.2",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-coveralls": "^1.0.0",
     "grunt-eslint": "^13.0.0",
     "grunt-notify": "^0.4.1",
     "grunt-template-jasmine-istanbul": "^0.3.3",
@@ -20,7 +21,7 @@
     "url": "https://github.com/cgrail/github-chrome-fullname.git"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt testCoveralls"
   },
   "author": "Christian Grail",
   "bugs": {

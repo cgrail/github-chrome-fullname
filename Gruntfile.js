@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-eslint");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-connect");
+    grunt.loadNpmTasks("grunt-coveralls");
     grunt.loadNpmTasks("grunt-notify");
 
     grunt.initConfig({
@@ -37,7 +38,17 @@ module.exports = function(grunt) {
                 template: require("grunt-template-jasmine-istanbul"),
                 templateOptions: {
                     coverage: "temp/coverage/coverage.json",
-                    report: "temp/coverage",
+                    report: [{
+                        type: "html",
+                        options: {
+                            dir: "temp/coverage"
+                        }
+                    }, {
+                        type: "lcov",
+                        options: {
+                            dir: "temp/lcov"
+                        }
+                    }],
                     files: [
                         "github-chrome-fullname/*.js",
                         "!github-chrome-fullname/index.js"
@@ -50,6 +61,11 @@ module.exports = function(grunt) {
                     }
                 },
                 keepRunner: true
+            }
+        },
+        coveralls: {
+            allTests: {
+                src: "temp/lcov/lcov.info"
             }
         },
         connect: {
