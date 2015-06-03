@@ -61,10 +61,10 @@ module.exports = function(grunt) {
         },
         watch: {
             files: ["github-chrome-fullname/*.js", "test/*.js"],
-            tasks: ["check"]
+            tasks: ["test"]
         }
     });
 
-    grunt.registerTask("check", ["eslint", "jasmine"]);
-    grunt.registerTask("default", ["check", "connect", "watch"]);
+    grunt.registerTask("test", ["eslint", "jasmine"]);
+    grunt.registerTask("default", ["test", "connect", "watch"]);
 };

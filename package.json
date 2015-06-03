@@ -19,9 +19,13 @@
     "type": "git",
     "url": "https://github.com/cgrail/github-chrome-fullname.git"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "author": "Christian Grail",
   "bugs": {
     "url": "https://github.com/cgrail/github-chrome-fullname/issues"
   },
-  "homepage": "https://github.com/cgrail/github-chrome-fullname"
+  "homepage": "https://github.com/cgrail/github-chrome-fullname",
+
 }
