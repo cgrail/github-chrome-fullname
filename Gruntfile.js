@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-connect");
     grunt.loadNpmTasks("grunt-coveralls");
+    grunt.loadNpmTasks("grunt-codeclimate-reporter");
     grunt.loadNpmTasks("grunt-notify");
 
     grunt.initConfig({
@@ -68,6 +69,12 @@ module.exports = function(grunt) {
                 src: "temp/lcov/lcov.info"
             }
         },
+        codeclimate: {
+            options: {
+                file: "temp/lcov/lcov.info",
+                token: "0eee0fc7b4fcd8be7b534a0ce36cd0d76a7e54ed617f89d880816a0d3a2ddcd3"
+            }
+        },
         connect: {
             server: {
                 options: {
@@ -82,6 +89,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask("test", ["eslint", "jasmine"]);
-    grunt.registerTask("testCoveralls", ["test", "coveralls:allTests"]);
+    grunt.registerTask("testAndUploadCoverage", ["test", "coveralls:allTests", "codeclimate"]);
     grunt.registerTask("default", ["test", "connect", "watch"]);
 };
