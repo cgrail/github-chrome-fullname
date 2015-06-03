@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/cgrail/github-chrome-fullname.svg?branch=master)](https://travis-ci.org/cgrail/github-chrome-fullname)
 [![Coverage Status](https://coveralls.io/repos/cgrail/github-chrome-fullname/badge.svg?branch=master)](https://coveralls.io/r/cgrail/github-chrome-fullname?branch=master)
-[![Code Climate](https://codeclimate.com/github/cgrail/github-chrome-fullname/badges/gpa.svg)](https://codeclimate.com/github/cgrail/github-chrome-fullname)
+[![Code Climate](https://codeclimate.com/github/cgrail/github-chrome-fullname/badges/gpa.svg)](https://codeclimate.com/github/cgrail/github-chrome-fullname/code)
 
 SAP GitHub Full-Name
 =====================
