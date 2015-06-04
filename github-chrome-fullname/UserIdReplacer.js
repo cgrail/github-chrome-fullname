@@ -8,10 +8,6 @@ function UserIdReplacer(restricter, userIdStringReplacer) {
 //Crawls through the whole document replacing user IDs with real names
 UserIdReplacer.prototype.replaceUserIDs = function() {
 
-    if (!this.restricter.isAllowedUrl(window.location.href)) {
-        return;
-    }
-
     var that = this;
 
     //Crawl through the whole DOM tree

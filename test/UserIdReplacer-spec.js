@@ -4,7 +4,6 @@
 describe("UserIdReplacer", function() {
 
     var replacer;
-    var isAllowedUrl;
     var userIdStringReplacer;
 
     var testUserId1 = "d000007";
@@ -13,27 +12,12 @@ describe("UserIdReplacer", function() {
     beforeEach(function() {
         jasmine.getFixtures().fixturesPath = "test/fixtures";
         var restricter = new ReplaceRestricter();
-        isAllowedUrl = true;
-        restricter.isAllowedUrl = function() {
-            return isAllowedUrl;
-        };
         userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
         replacer = new UserIdReplacer(restricter, userIdStringReplacer);
-
     });
 
     afterEach(function() {
         jasmine.Ajax.uninstall();
-    });
-
-    it("don't run replacer for not allowed URL", function() {
-        isAllowedUrl = false;
-        var replaceCalled = false;
-        userIdStringReplacer.replaceUserIds = function() {
-            replaceCalled = true;
-        };
-        replacer.replaceUserIDs();
-        expect(replaceCalled).toEqual(false);
     });
 
     it("it should replace all user Ids on the page", function() {
