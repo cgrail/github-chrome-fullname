@@ -23,7 +23,7 @@ UserIdStringReplacer.prototype.replaceUserIds = function(sourceString) {
 
     //Replace the user IDs with the real names
     var replaceUserId = function(result) {
-        if(result.userName && result.userName !== result.userId){
+        if(result && result.userName && result.userName !== result.userId){
             convertedString = convertedString.replace(result.userId, result.userName);
         }
     };
@@ -55,14 +55,14 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
     if (!this._deferredUserMap[userId]) {
         var githubUserApiUrl = this.githubUserApiUrl;
         var deferedUserName = new Promise(function(resolve) {
+            var result = {
+                userId: userId
+            };
             //Load the real name
             jQuery.ajax({
                 url: githubUserApiUrl + userId,
                 dataType: "json",
                 success: function(oData) {
-                    var result = {
-                        userId: userId
-                    };
                     //Check if the user entered a real name
                     if (oData.name) {
                         result.userName = oData.name;
@@ -70,7 +70,7 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
                     resolve(result);
                 },
                 error: function() {
-                    resolve(userId);
+                    resolve(result);
                 }
             });
         });
