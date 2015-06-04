@@ -16,6 +16,8 @@ function ReplaceRestricter() {
     }, {
         "parents": ".copyable-terminal" // UserIds which are commands for the terminal shouldn't be replaced
     }, {
+        "parents": ".commit-ref" // Visible remote branch name. It should be able to use this name in the terminal
+    }, {
         "self": ".vcard-username"
     }];
 }
