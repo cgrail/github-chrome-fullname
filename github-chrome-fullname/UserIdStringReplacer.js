@@ -24,15 +24,17 @@ UserIdStringReplacer.prototype.replaceUserIds = function(sourceString) {
 
     //Replace the user IDs with the real names
     var convertedUserNamesCounter = 0;
-    for (var j = 0; j < aDistinctUserIDs.length; j++) {
-        var userId = aDistinctUserIDs[j];
-        this.loadUserName(userId).done(function(userName) {
-            convertedUserNamesCounter++;
+    var replaceUserId = function(userId, userName) {
+        convertedUserNamesCounter++;
+        if(userName && userName !== userId){
             convertedString = convertedString.replace(userId, userName);
-            if (convertedUserNamesCounter === aDistinctUserIDs.length) {
-                deferedConvertedString.resolve(convertedString);
-            }
-        });
+        }
+        if (convertedUserNamesCounter === aDistinctUserIDs.length) {
+            deferedConvertedString.resolve(convertedString);
+        }
+    };
+    for (var j = 0; j < aDistinctUserIDs.length; j++) {
+        this.loadUserName(aDistinctUserIDs[j]).done(replaceUserId);
     }
 
     //Done
@@ -60,12 +62,11 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
             url: this.githubUserApiUrl + userId,
             dataType: "json",
             success: function(oData) {
-                //Check if the user entered a real name
                 if (oData.name) {
-                    deferedUserName.resolve(oData.name);
-                }
-                //Otherwise just use the user ID
-                else {
+                    //Check if the user entered a real name
+                    deferedUserName.resolve(userId, oData.name);
+                } else {
+                    //Otherwise just use the user ID
                     deferedUserName.resolve(userId);
                 }
             },
