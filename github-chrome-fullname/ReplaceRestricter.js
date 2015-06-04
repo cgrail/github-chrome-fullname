@@ -38,20 +38,10 @@ ReplaceRestricter.prototype.isReplacementAllowed = function(jqElement) {
     }
     //Check if this text matches the criteria for any of the "exceptions"
     for (var i = 0; i < this.restrictedElements.length; i++) {
-        //Instead of writing a massive if-elseif-elseif-elseif-else, you can also reverse a switch statement like this.
-        //Technically the two are identical, but this looks a bit cleaner to me
-        switch (true) {
-            case (this.restrictedElements[i].parents ? jqElement.parents(this.restrictedElements[i].parents).length > 0 : false):
-                //Replacement not allowed
-                return false;
-
-            case (this.restrictedElements[i].self ? jqElement.parent().parent().children(this.restrictedElements[i].self).length > 0 : false):
-                //Replacement not allowed
-                return false;
-
-            default:
-                //Check the next exception
-                continue;
+        if((this.restrictedElements[i].parents ? jqElement.parents(this.restrictedElements[i].parents).length > 0 : false)){
+            return false;
+        } else if(this.restrictedElements[i].self ? jqElement.parent().parent().children(this.restrictedElements[i].self).length > 0 : false){
+            return false;
         }
     }
     //All exceptions passed / do not apply
