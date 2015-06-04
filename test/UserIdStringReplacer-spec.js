@@ -16,11 +16,13 @@ describe("UserIdStringReplacer", function() {
     });
 
     var replaceAndAssert = function(act, exp, done){
-        replacer.replaceUserIds(act).done(function(replacedValue) {
-            expect(replacedValue).toEqual(exp);
-            if(done){
-                done();
-            }
+        replacer.replaceUserIds(act).then(function(replacedValue) {
+            window.setTimeout(function(){
+                expect(replacedValue).toEqual(exp);
+                if(done){
+                    done();
+                }
+            }, 10);
         });
     };
 

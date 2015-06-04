@@ -34,7 +34,7 @@ UserIdReplacer.prototype.replaceTooltip = function(element){
     //Getting the jQuery reference
     var jqElement = jQuery(element);
     var ariaLabel = jqElement.attr("aria-label");
-    this.stringReplacer.replaceUserIds(ariaLabel).done(function(replacedAriaLabel){
+    this.stringReplacer.replaceUserIds(ariaLabel).then(function(replacedAriaLabel){
         jqElement.attr("aria-label", replacedAriaLabel);
     });
 };
@@ -44,7 +44,7 @@ UserIdReplacer.prototype.replaceNode = function(element){
     var jqElement = jQuery(element);
     var oldValue = element.nodeValue;
     var that = this;
-    this.stringReplacer.replaceUserIds(oldValue).done(function(replacedNodeValue){
+    this.stringReplacer.replaceUserIds(oldValue).then(function(replacedNodeValue){
         if(!replacedNodeValue || replacedNodeValue.trim().length === 0){
             return;
         }

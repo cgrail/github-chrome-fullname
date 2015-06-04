@@ -20,7 +20,7 @@ describe("UserIdReplacer", function() {
         jasmine.Ajax.uninstall();
     });
 
-    it("it should replace all user Ids on the page", function() {
+    it("it should replace all user Ids on the page", function(done) {
         loadFixtures("testGithubCommits.html");
 
         // Mock Ajax Request
@@ -34,7 +34,11 @@ describe("UserIdReplacer", function() {
 
         // Execute
         replacer.replaceUserIDs();
-        expect(jQuery("*:contains(\"Superman\")").length).toEqual(48);
+        window.setTimeout(function(){
+            expect(jQuery("*:contains(\"Superman\")").length).toEqual(48);
+            done();
+        }, 1);
+
     });
 
 });

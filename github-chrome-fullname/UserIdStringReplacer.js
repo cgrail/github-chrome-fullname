@@ -7,38 +7,36 @@ function UserIdStringReplacer(githubUrl) {
 }
 
 UserIdStringReplacer.prototype.replaceUserIds = function(sourceString) {
-    var deferedConvertedString = jQuery.Deferred();
     var convertedString = sourceString;
 
     if (!sourceString || sourceString.trim().length === 0) {
-        return deferedConvertedString.resolve(convertedString);
+        return Promise.resolve(convertedString);
     }
 
     var aUserIds = sourceString.match(this._userIdRegex);
 
     if (aUserIds === null || aUserIds.length === 0) {
-        return deferedConvertedString.resolve(convertedString);
+        return Promise.resolve(convertedString);
     }
 
     var aDistinctUserIDs = this.getDistinctUserIds(aUserIds);
 
     //Replace the user IDs with the real names
-    var convertedUserNamesCounter = 0;
-    var replaceUserId = function(userId, userName) {
-        convertedUserNamesCounter++;
-        if(userName && userName !== userId){
-            convertedString = convertedString.replace(userId, userName);
-        }
-        if (convertedUserNamesCounter === aDistinctUserIDs.length) {
-            deferedConvertedString.resolve(convertedString);
+    var replaceUserId = function(result) {
+        if(result.userName && result.userName !== result.userId){
+            convertedString = convertedString.replace(result.userId, result.userName);
         }
     };
-    for (var j = 0; j < aDistinctUserIDs.length; j++) {
-        this.loadUserName(aDistinctUserIDs[j]).done(replaceUserId);
-    }
+    var replacedUserIdsPromise = [];
+    aDistinctUserIDs.forEach(function(userId){
+        var replaceUserIdPromise = this.loadUserName(userId);
+        replaceUserIdPromise.then(replaceUserId);
+        replacedUserIdsPromise.push(replaceUserIdPromise);
+    }, this);
 
-    //Done
-    return deferedConvertedString;
+    return Promise.all(replacedUserIdsPromise).then(function(){
+        return convertedString;
+    });
 };
 
 UserIdStringReplacer.prototype.getDistinctUserIds = function(userIds) {
@@ -55,25 +53,28 @@ UserIdStringReplacer.prototype.getDistinctUserIds = function(userIds) {
 UserIdStringReplacer.prototype.loadUserName = function(userId) {
     //Check if we didn't already load that ID
     if (!this._deferredUserMap[userId]) {
-        var deferedUserName = jQuery.Deferred();
-        this._deferredUserMap[userId] = deferedUserName;
-        //Load the real name
-        jQuery.ajax({
-            url: this.githubUserApiUrl + userId,
-            dataType: "json",
-            success: function(oData) {
-                if (oData.name) {
+        var githubUserApiUrl = this.githubUserApiUrl;
+        var deferedUserName = new Promise(function(resolve) {
+            //Load the real name
+            jQuery.ajax({
+                url: githubUserApiUrl + userId,
+                dataType: "json",
+                success: function(oData) {
+                    var result = {
+                        userId: userId
+                    };
                     //Check if the user entered a real name
-                    deferedUserName.resolve(userId, oData.name);
-                } else {
-                    //Otherwise just use the user ID
-                    deferedUserName.resolve(userId);
+                    if (oData.name) {
+                        result.userName = oData.name;
+                    }
+                    resolve(result);
+                },
+                error: function() {
+                    resolve(userId);
                 }
-            },
-            error: function() {
-                deferedUserName.resolve(userId);
-            }
+            });
         });
+        this._deferredUserMap[userId] = deferedUserName;
     }
     return this._deferredUserMap[userId];
 };

@@ -35,6 +35,8 @@ module.exports = function(grunt) {
                     "node_modules/jasmine-jquery/lib/jasmine-jquery.js"
                 ],
                 specs: "test/**/*.js",
+                polyfills : ["node_modules/es6-promise/dist/es6-promise.js"],
+                keepRunner: true,
                 template: require("grunt-template-jasmine-istanbul"),
                 templateOptions: {
                     coverage: "temp/coverage/coverage.json",
@@ -59,8 +61,7 @@ module.exports = function(grunt) {
                         branches: 100,
                         functions: 100
                     }
-                },
-                keepRunner: true
+                }
             }
         },
         coveralls: {
