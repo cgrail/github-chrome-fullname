@@ -20,6 +20,10 @@ function ReplaceRestricter() {
     }, {
         "parents": ".merge-pr-more-commits" // Comment for fork: Add more commits by pushing to the
     }, {
+        "parents": "code" // No replace for anything which seems like code
+    }, {
+        "parents": "pre" // No replace for anything that is preformatted
+    }, {
         "self": ".vcard-username"
     }];
 }
