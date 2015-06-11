@@ -24,6 +24,8 @@ function ReplaceRestricter() {
     }, {
         "parents": "pre" // No replace for anything that is preformatted
     }, {
+        "parents": ".protip" // Exclude protip
+    }, {
         "self": ".vcard-username"
     }];
 }
