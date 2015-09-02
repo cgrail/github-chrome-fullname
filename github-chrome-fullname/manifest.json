@@ -1,7 +1,7 @@
 {
     "name": "Name instead of UserId for SAP GitHub",
     "description": "Display full name instead of UserId for SAP GitHub Enterprise instance",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "manifest_version": 2,
     "content_scripts": [{
         "js": [

@@ -54,25 +54,20 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
     //Check if we didn't already load that ID
     if (!this._deferredUserMap[userId]) {
         var githubUserApiUrl = this.githubUserApiUrl;
-        var deferedUserName = new Promise(function(resolve) {
-            var result = {
-                userId: userId
-            };
-            //Load the real name
-            jQuery.ajax({
-                url: githubUserApiUrl + userId,
-                dataType: "json",
-                success: function(oData) {
-                    //Check if the user entered a real name
-                    if (oData.name) {
-                        result.userName = oData.name;
-                    }
-                    resolve(result);
-                },
-                error: function() {
-                    resolve(result);
-                }
-            });
+        var result = {
+            userId: userId
+        };
+        var deferedUserName = fetch(githubUserApiUrl + userId)
+        .then(function(result){
+            return result.json();
+        }).then(function(data){
+            //Check if the user entered a real name
+            if (data.name) {
+                result.userName = data.name;
+            }
+            return result;
+        }).catch(function(){
+            return result;
         });
         this._deferredUserMap[userId] = deferedUserName;
     }

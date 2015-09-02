@@ -1,6 +1,6 @@
 {
   "name": "github-chrome-fullname",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Full name instead of UserId for SAP GitHub",
   "main": "Gruntfile.js",
   "devDependencies": {
