@@ -4,8 +4,6 @@
 [![Code Climate](https://codeclimate.com/github/cgrail/github-chrome-fullname/badges/gpa.svg)](https://codeclimate.com/github/cgrail/github-chrome-fullname/code)
 [![Codacy Badge](https://www.codacy.com/project/badge/388c23cae96e4eae996175411774f6a2)](https://www.codacy.com/app/christian_3/github-chrome-fullname)
 
-[ ![Codeship Status for cgrail/github-chrome-fullname](https://codeship.com/projects/9da71260-ed3f-0132-7e77-0eee9d4772fa/status?branch=master)](https://codeship.com/projects/83966)
-
 SAP GitHub Full-Name
 =====================
 
