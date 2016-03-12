@@ -16,6 +16,17 @@ describe("UserIdReplacer", function() {
         userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
         replacer = new UserIdReplacer(restricter, userIdStringReplacer);
         fetchMock.install();
+        window.chrome = {
+            runtime: {
+                sendMessage: function(action, callback) {
+                    callback({
+                        response: {
+                            cachedUserNames: {}
+                        }
+                    });
+                }
+            }
+        };
     });
 
     afterEach(function() {
