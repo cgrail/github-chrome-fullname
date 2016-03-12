@@ -31,10 +31,13 @@ module.exports = function(grunt) {
             options: {
                 vendor: [
                     "node_modules/jasmine-ajax/lib/mock-ajax.js",
-                    "node_modules/jasmine-jquery/vendor/jquery/jquery.js",
+                    "node_modules/jquery/dist/jquery.js",
                     "node_modules/jasmine-jquery/lib/jasmine-jquery.js"
                 ],
-                specs: "test/**/*.js",
+                helpers: [
+                    "test/helpers/FetchMock.js"
+                ],
+                specs: "test/*.js",
                 polyfills : ["node_modules/es6-promise/dist/es6-promise.js"],
                 keepRunner: true,
                 template: require("grunt-template-jasmine-istanbul"),

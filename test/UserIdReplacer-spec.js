@@ -8,29 +8,27 @@ describe("UserIdReplacer", function() {
 
     var testUserId1 = "d000007";
     var testUserName1 = "Superman";
+    var fetchMock = new FetchMock();
 
     beforeEach(function() {
         jasmine.getFixtures().fixturesPath = "test/fixtures";
         var restricter = new ReplaceRestricter();
         userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
         replacer = new UserIdReplacer(restricter, userIdStringReplacer);
+        fetchMock.install();
     });
 
     afterEach(function() {
-        jasmine.Ajax.uninstall();
+        fetchMock.uninstall();
     });
 
     it("it should replace all user Ids on the page", function(done) {
         loadFixtures("testGithubCommits.html");
-
-        // Mock Ajax Request
-        jasmine.Ajax.install();
         var response = {
             "name": testUserName1
         };
-        jasmine.Ajax.stubRequest(userIdStringReplacer.githubUserApiUrl + testUserId1).andReturn({
-            "responseText": JSON.stringify(response)
-        });
+
+        fetchMock.mockRequest(userIdStringReplacer.githubUserApiUrl + testUserId1, response);
 
         // Execute
         replacer.replaceUserIDs();

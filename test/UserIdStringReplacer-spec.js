@@ -9,10 +9,15 @@ describe("UserIdStringReplacer", function() {
     var testUserName1 = "Superman";
     var testUserId2 = "D000002";
     var testUserName2 = "Superwoman";
+    var fetchMock = new FetchMock();
 
     beforeEach(function() {
         replacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
-        jasmine.Ajax.install();
+        fetchMock.install();
+    });
+
+    afterEach(function() {
+        fetchMock.uninstall();
     });
 
     var replaceAndAssert = function(act, exp, done){
@@ -30,14 +35,8 @@ describe("UserIdStringReplacer", function() {
         var response = {
             "name": userName
         };
-        jasmine.Ajax.stubRequest(replacer.githubUserApiUrl + userId).andReturn({
-            "responseText": JSON.stringify(response)
-        });
+        fetchMock.mockRequest(replacer.githubUserApiUrl + userId, response);
     };
-
-    afterEach(function() {
-        jasmine.Ajax.uninstall();
-    });
 
     it("should return an empty string for an empty string", function(done) {
         replaceAndAssert("", "", done);
@@ -56,9 +55,6 @@ describe("UserIdStringReplacer", function() {
 
 
     it("should should return the string with the userId when the backend call fails", function(done) {
-        jasmine.Ajax.stubRequest(replacer.githubUserApiUrl + testUserId1).andReturn({
-            "status": "404"
-        });
         replaceAndAssert(testUserId1, testUserId1, done);
     });
 
