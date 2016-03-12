@@ -26,6 +26,8 @@ function ReplaceRestricter() {
     }, {
         "parents": ".protip" // Exclude protip
     }, {
+        "parents": ".blob-wrapper" // exclude github blobs
+    }, {
         "self": ".vcard-username"
     }];
 }
