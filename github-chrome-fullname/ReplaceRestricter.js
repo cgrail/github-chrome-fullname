@@ -32,7 +32,7 @@ function ReplaceRestricter() {
     }];
 }
 
-ReplaceRestricter.prototype.isAllowedUrl = function(currentUrl) {
+ReplaceRestricter.prototype.isAllowedUrl = function (currentUrl) {
     for (var i = 0; i < this.restrictedUrls.length; i++) {
         if (currentUrl.indexOf(this.restrictedUrls[i]) !== -1) {
             return false;
@@ -42,15 +42,15 @@ ReplaceRestricter.prototype.isAllowedUrl = function(currentUrl) {
 };
 
 //Checks if a jQuery element fulfills any of the replacement exceptions
-ReplaceRestricter.prototype.isReplacementAllowed = function(jqElement) {
-    if(!jqElement){
+ReplaceRestricter.prototype.isReplacementAllowed = function (jqElement) {
+    if (!jqElement) {
         return false;
     }
     //Check if this text matches the criteria for any of the "exceptions"
     for (var i = 0; i < this.restrictedElements.length; i++) {
-        if((this.restrictedElements[i].parents ? jqElement.parents(this.restrictedElements[i].parents).length > 0 : false)){
+        if ((this.restrictedElements[i].parents ? jqElement.parents(this.restrictedElements[i].parents).length > 0 : false)) {
             return false;
-        } else if(this.restrictedElements[i].self ? jqElement.parent().parent().children(this.restrictedElements[i].self).length > 0 : false){
+        } else if (this.restrictedElements[i].self ? jqElement.parent().parent().children(this.restrictedElements[i].self).length > 0 : false) {
             return false;
         }
     }

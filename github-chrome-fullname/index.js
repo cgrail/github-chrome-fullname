@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     /*global ReplaceRestricter, UserIdStringReplacer, UserIdReplacer*/
@@ -8,7 +8,7 @@
 
     // Check DOM size every second. After change of DOM elements replace user Ids.
     var lastDomSize;
-    window.setInterval(function() {
+    window.setInterval(function () {
         if (!restricter.isAllowedUrl(window.location.href)) {
             return;
         }
