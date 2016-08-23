@@ -6,7 +6,7 @@ function UserIdReplacer(restricter, userIdStringReplacer) {
 }
 
 //Crawls through the whole document replacing user IDs with real names
-UserIdReplacer.prototype.replaceUserIDs = function() {
+UserIdReplacer.prototype.replaceUserIDs = function () {
 
     var that = this;
 
@@ -14,7 +14,7 @@ UserIdReplacer.prototype.replaceUserIDs = function() {
     jQuery("*", "body")
         .andSelf()
         .contents()
-        .each(function() {
+        .each(function () {
 
             //Check if this is a tooltip type
             if (this.nodeType === 1 && this.attributes.getNamedItem("aria-label")) {
@@ -25,30 +25,29 @@ UserIdReplacer.prototype.replaceUserIDs = function() {
             //Check if this is a text type
             if (this.nodeType === 3 && this.nodeValue) {
                 that.replaceNode(this);
-                return;
             }
         });
 };
 
-UserIdReplacer.prototype.replaceTooltip = function(element){
+UserIdReplacer.prototype.replaceTooltip = function (element) {
     //Getting the jQuery reference
     var jqElement = jQuery(element);
     var ariaLabel = jqElement.attr("aria-label");
-    this.stringReplacer.replaceUserIds(ariaLabel).then(function(replacedAriaLabel){
+    this.stringReplacer.replaceUserIds(ariaLabel).then(function (replacedAriaLabel) {
         jqElement.attr("aria-label", replacedAriaLabel);
     });
 };
 
-UserIdReplacer.prototype.replaceNode = function(element){
+UserIdReplacer.prototype.replaceNode = function (element) {
     //Getting the jQuery reference
     var jqElement = jQuery(element);
     var oldValue = element.nodeValue;
     var that = this;
-    this.stringReplacer.replaceUserIds(oldValue).then(function(replacedNodeValue){
-        if(!replacedNodeValue || replacedNodeValue.trim().length === 0){
+    this.stringReplacer.replaceUserIds(oldValue).then(function (replacedNodeValue) {
+        if (!replacedNodeValue || replacedNodeValue.trim().length === 0) {
             return;
         }
-        if(oldValue === replacedNodeValue){
+        if (oldValue === replacedNodeValue) {
             return;
         }
 
