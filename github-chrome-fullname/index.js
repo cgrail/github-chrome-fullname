@@ -22,11 +22,14 @@
       return;
     }
 
+    var useFullCheck = (hostname === "huboard.mo.sap.corp")
+
     window.setInterval(function() {
         if (!restricter.isAllowedUrl(window.location.href)) {
             return;
         }
-        var currentDomSize = $('html').html().length;
+
+        var currentDomSize = useFullCheck ? $('html').html().length : document.getElementsByTagName("*").length;
         if (currentDomSize !== lastDomSize) {
             lastDomSize = currentDomSize;
             userIdReplacer.replaceUserIDs();
