@@ -26,7 +26,7 @@
         if (!restricter.isAllowedUrl(window.location.href)) {
             return;
         }
-        var currentDomSize = document.getElementsByTagName("*").length;
+        var currentDomSize = $('html').html().length;
         if (currentDomSize !== lastDomSize) {
             lastDomSize = currentDomSize;
             userIdReplacer.replaceUserIDs();
