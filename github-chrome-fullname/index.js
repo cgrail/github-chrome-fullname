@@ -1,8 +1,7 @@
 (function() {
     "use strict";
 
-    var allowedSites = [
-        "github.wdf.sap.corp",
+    var fullCheckSites = [
         "huboard.mo.sap.corp"
     ];
 
@@ -16,13 +15,9 @@
 
     var parser = document.createElement('a');
     parser.href = window.location.href;
-
     var hostname = parser.hostname;
-    if (allowedSites.indexOf(hostname) === -1) {
-      return;
-    }
 
-    var useFullCheck = (hostname === "huboard.mo.sap.corp")
+    var useFullCheck = (fullCheckSites.indexOf(hostname) !== -1)
 
     window.setInterval(function() {
         if (!restricter.isAllowedUrl(window.location.href)) {
