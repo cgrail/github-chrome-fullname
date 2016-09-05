@@ -1,6 +1,10 @@
 (function() {
     "use strict";
 
+    var fullCheckSites = [
+        "huboard.mo.sap.corp"
+    ];
+
     /*global ReplaceRestricter, UserIdStringReplacer, UserIdReplacer*/
     var restricter = new ReplaceRestricter();
     var userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
@@ -8,11 +12,15 @@
 
     // Check DOM size every second. After change of DOM elements replace user Ids.
     var lastDomSize;
+
+    var useFullCheck = (fullCheckSites.indexOf(window.location.hostname) !== -1)
+
     window.setInterval(function() {
         if (!restricter.isAllowedUrl(window.location.href)) {
             return;
         }
-        var currentDomSize = document.getElementsByTagName("*").length;
+
+        var currentDomSize = useFullCheck ? $('html').html().length : document.getElementsByTagName("*").length;
         if (currentDomSize !== lastDomSize) {
             lastDomSize = currentDomSize;
             userIdReplacer.replaceUserIDs();
