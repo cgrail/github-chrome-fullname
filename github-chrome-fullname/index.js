@@ -13,7 +13,7 @@
     // Check DOM size every second. After change of DOM elements replace user Ids.
     var lastDomSize;
 
-    var useFullCheck = (fullCheckSites.indexOf(window.location.hostname) !== -1)
+    var useFullCheck = (fullCheckSites.indexOf(window.location.hostname) !== -1);
 
     window.setInterval(function() {
         if (!restricter.isAllowedUrl(window.location.href)) {
