@@ -20,7 +20,7 @@
             return;
         }
 
-        var currentDomSize = useFullCheck ? $('html').html().length : document.getElementsByTagName("*").length;
+        var currentDomSize = useFullCheck ? $("html").html().length : document.getElementsByTagName("*").length;
         if (currentDomSize !== lastDomSize) {
             lastDomSize = currentDomSize;
             userIdReplacer.replaceUserIDs();
