@@ -4,6 +4,7 @@
 function UserIdStringReplacer(githubUrl) {
     this._userIdRegex = /[di]\d{6}|c\d{7}/gi;
     this._deferredUserMap = {};
+    this._cachedUsers = {};
     this.githubUserApiUrl = githubUrl + "/api/v3/users/";
     this.preloadUserNamesPromise = this.preloadUserNames();
 }
@@ -60,11 +61,21 @@ UserIdStringReplacer.prototype.getUserName = function(userId) {
 //Lazy loads real user names from github
 UserIdStringReplacer.prototype.loadUserName = function(userId) {
     //Check if we didn't already load that ID
+    if (this._cachedUsers[userId]) {
+        var userName = this._cachedUsers[userId];
+        this._deferredUserMap[userId] = new Promise(function(resolve) {
+            resolve({
+                userId: userId,
+                userName: userName
+            });
+        });
+    }
     if (!this._deferredUserMap[userId]) {
         var githubUserApiUrl = this.githubUserApiUrl;
         var result = {
             userId: userId
         };
+        var that = this;
         this._deferredUserMap[userId] = fetch(githubUserApiUrl + userId)
             .then(function(response){
                 return response.json();
@@ -72,6 +83,7 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
                 //Check if the user entered a real name
                 if (data.name) {
                     result.userName = data.name;
+                    that.cacheUserNames(userId, result.userName);
                 }
                 return result;
             }).catch(function(){
@@ -81,6 +93,11 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
     return this._deferredUserMap[userId];
 };
 
+UserIdStringReplacer.prototype.cacheUserNames = function (userId, userName) {
+    this._cachedUsers[userId] = userName;
+    chrome.runtime.sendMessage({action: "saveUserNames", userId: userId, userName: userName});
+}
+
 UserIdStringReplacer.prototype.preloadUserNames = function() {
     return new Promise(function(resolve) {
         chrome.runtime.sendMessage({action: "loadCachedUserNames"}, function(response) {
@@ -88,7 +105,7 @@ UserIdStringReplacer.prototype.preloadUserNames = function() {
         });
     }).then(function(response) {
         if (response && response.cachedUserNames){
-            this._deferredUserMap = response.cachedUserNames;
+            this._cachedUsers = response.cachedUserNames;
         }
     }.bind(this));
 };

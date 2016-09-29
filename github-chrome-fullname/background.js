@@ -10,7 +10,7 @@
     var cachedUserNamesString = localStorage.getItem(CACHED_USER_IDS_KEY);
     var cachedUserNames;
 
-    if (cachedUserNamesString && cachedUserNamesString === "") {
+    if (cachedUserNamesString && cachedUserNamesString !== "") {
      cachedUserNames = JSON.parse(cachedUserNamesString);
     } else {
       cachedUserNames = {};
@@ -27,9 +27,10 @@
       var cachedUserNames = loadCachedUserNames();
       sendResponse({"cachedUserNames": cachedUserNames});
     }
-    if (request.action === "saveUserNames") {
-      saveCachedUserNames(JSON.stringify(request.userNames));
-      sendResponse();
+    if (request.action === "saveUserNames" && request.userId && request.userName) {
+      var cachedUserNames = loadCachedUserNames();
+      cachedUserNames[request.userId] = request.userName;
+      saveCachedUserNames(JSON.stringify(cachedUserNames));
     }
   });
 
