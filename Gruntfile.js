@@ -27,7 +27,10 @@ module.exports = function(grunt) {
             ]
         },
         jasmine: {
-            src: "github-chrome-fullname/**/*.js",
+            src: [
+                "github-chrome-fullname/**/*.js",
+                "!github-chrome-fullname/index.js"
+            ],
             options: {
                 vendor: [
                     "node_modules/jasmine-ajax/lib/mock-ajax.js",
