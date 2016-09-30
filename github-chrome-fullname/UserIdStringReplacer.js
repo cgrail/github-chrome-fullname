@@ -95,8 +95,8 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
 
 UserIdStringReplacer.prototype.cacheUserNames = function (userId, userName) {
     this._cachedUsers[userId] = userName;
-    chrome.storage.local.set({'cachedUserNames': this._cachedUsers});
-}
+    chrome.storage.local.set({"cachedUserNames": this._cachedUsers});
+};
 
 UserIdStringReplacer.prototype.preloadUserNames = function() {
     return new Promise(function(resolve) {
