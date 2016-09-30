@@ -95,13 +95,13 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
 
 UserIdStringReplacer.prototype.cacheUserNames = function (userId, userName) {
     this._cachedUsers[userId] = userName;
-    chrome.runtime.sendMessage({action: "saveUserNames", userId: userId, userName: userName});
+    chrome.storage.local.set({'cachedUserNames': this._cachedUsers});
 }
 
 UserIdStringReplacer.prototype.preloadUserNames = function() {
     return new Promise(function(resolve) {
-        chrome.runtime.sendMessage({action: "loadCachedUserNames"}, function(response) {
-            resolve(response);
+        chrome.storage.local.get("cachedUserNames", function(result) {
+            resolve(result);
         });
     }).then(function(response) {
         if (response && response.cachedUserNames){

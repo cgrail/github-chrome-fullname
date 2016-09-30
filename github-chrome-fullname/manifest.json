@@ -1,7 +1,7 @@
 {
     "name": "Name instead of UserId for SAP GitHub",
     "description": "Display full name instead of UserId for SAP GitHub Enterprise instance",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "manifest_version": 2,
     "content_scripts": [{
         "js": [
@@ -20,11 +20,8 @@
         	"https://github.wdf.sap.corp/pages*"
         ]
     }],
-    "background": {
-        "scripts": ["background.js"]
-    },
     "permissions": [
-    	"background"
+    	"storage"
     ],
     "icons": {
         "16": "img/icon16.png",
