@@ -5,9 +5,10 @@
         "huboard.mo.sap.corp"
     ];
 
-    /*global ReplaceRestricter, UserIdStringReplacer, UserIdReplacer*/
+    /*global ReplaceRestricter, UserIdStringReplacer, UserIdReplacer, ChromeUserNameCache*/
+    var userNameCache = new ChromeUserNameCache();
     var restricter = new ReplaceRestricter();
-    var userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
+    var userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp", userNameCache);
     var userIdReplacer = new UserIdReplacer(restricter, userIdStringReplacer);
 
     // Check DOM size every second. After change of DOM elements replace user Ids.

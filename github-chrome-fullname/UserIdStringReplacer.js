@@ -1,10 +1,11 @@
 "use strict";
 
 /*global chrome*/
-function UserIdStringReplacer(githubUrl) {
+function UserIdStringReplacer(githubUrl, userNameCache) {
     this._userIdRegex = /[di]\d{6}|c\d{7}/gi;
     this._deferredUserMap = {};
     this._cachedUsers = {};
+    this.userNameCache = userNameCache;
     this.githubUserApiUrl = githubUrl + "/api/v3/users/";
     this.preloadUserNamesPromise = this.preloadUserNames();
 }
@@ -95,17 +96,11 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
 
 UserIdStringReplacer.prototype.cacheUserNames = function (userId, userName) {
     this._cachedUsers[userId] = userName;
-    chrome.storage.local.set({"cachedUserNames": this._cachedUsers});
+    this.userNameCache.cacheUserNames(this._cachedUsers);    
 };
 
 UserIdStringReplacer.prototype.preloadUserNames = function() {
-    return new Promise(function(resolve) {
-        chrome.storage.local.get("cachedUserNames", function(result) {
-            resolve(result);
-        });
-    }).then(function(response) {
-        if (response && response.cachedUserNames){
-            this._cachedUsers = response.cachedUserNames;
-        }
+    return this.userNameCache.getCachedUserNames().then(function(response) {
+        this._cachedUsers = response;
     }.bind(this));
 };

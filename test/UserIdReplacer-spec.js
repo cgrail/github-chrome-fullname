@@ -9,21 +9,33 @@ describe("UserIdReplacer", function() {
     var testUserId1 = "d000007";
     var testUserName1 = "Superman";
     var fetchMock = new FetchMock();
+    var userNameCacheMock = {
+        getCachedUserNames: function () {
+            return new Promise(function(resolve) {
+                resolve({});
+            });
+        },
+        cacheUserNames: function() {
+
+        }
+    };
 
     beforeEach(function() {
         jasmine.getFixtures().fixturesPath = "test/fixtures";
         var restricter = new ReplaceRestricter();
-        userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
+        userIdStringReplacer = new UserIdStringReplacer("https://github.wdf.sap.corp", userNameCacheMock);
         replacer = new UserIdReplacer(restricter, userIdStringReplacer);
         fetchMock.install();
         window.chrome = {
-            runtime: {
-                sendMessage: function(action, callback) {
-                    callback({
-                        response: {
-                            cachedUserNames: {}
-                        }
-                    });
+            storage: {
+                local: {
+                    get: function(key, fn){
+                        fn();
+
+                    },
+                    set: function(key){
+
+                    }
                 }
             }
         };

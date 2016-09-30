@@ -9,11 +9,38 @@ describe("UserIdStringReplacer", function() {
     var testUserName1 = "Superman";
     var testUserId2 = "D000002";
     var testUserName2 = "Superwoman";
+    var testUserId3 = "D000003";
+    var testUserName3 = "Cacheman";
     var fetchMock = new FetchMock();
+    var userNameCacheMock = {
+        getCachedUserNames: function () {
+            return new Promise(function(resolve) {
+                var cache = {};
+                cache[testUserId3] = testUserName3;
+                resolve(cache);
+            });
+        },
+        cacheUserNames: function() {
+
+        }
+    };
 
     beforeEach(function() {
-        replacer = new UserIdStringReplacer("https://github.wdf.sap.corp");
+        replacer = new UserIdStringReplacer("https://github.wdf.sap.corp", userNameCacheMock);
         fetchMock.install();
+        window.chrome = {
+            storage: {
+                local: {
+                    get: function(key, fn){
+                        fn();
+
+                    },
+                    set: function(key){
+
+                    }
+                }
+            }
+        };
     });
 
     afterEach(function() {
@@ -72,6 +99,10 @@ describe("UserIdStringReplacer", function() {
     it("should not replace a userId when the backend returns no userName", function(done) {
         stubAjaxRequestForUser(testUserId1, "");
         replaceAndAssert(testUserId1, testUserId1, done);
+    });
+
+    it("should not call the backend when the userName is already cached", function(done) {
+        replaceAndAssert(testUserId3, testUserName3, done);
     });
 
     it("should replace multiple userIds with userName", function(done) {

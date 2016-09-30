@@ -14,11 +14,11 @@ module.exports = function(grunt) {
                 envs: ["browser", "jasmine"],
                 globals: ["jQuery"],
                 rules: {
-                    "global-strict": false,
-                    "no-underscore-dangle": false,
-                    "new-cap": false,
-                    "no-loop-func": false,
-                    "no-undef": false
+                    "global-strict": 0,
+                    "no-underscore-dangle": 0,
+                    "new-cap": 0,
+                    "no-loop-func": 0,
+                    "no-undef": 0
                 }
             },
             target: [
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
                     "test/helpers/FetchMock.js"
                 ],
                 specs: "test/*.js",
-                polyfills : ["node_modules/es6-promise/dist/es6-promise.js"],
+                polyfills : ["node_modules/es6-promise/dist/es6-promise.auto.js"],
                 keepRunner: true,
                 template: require("grunt-template-jasmine-istanbul"),
                 templateOptions: {
@@ -56,7 +56,8 @@ module.exports = function(grunt) {
                     }],
                     files: [
                         "github-chrome-fullname/*.js",
-                        "!github-chrome-fullname/index.js"
+                        "!github-chrome-fullname/index.js",
+                        "!github-chrome-fullname/ChromeUserNameCache.js"
                     ],
                     thresholds: {
                         lines: 100,
@@ -87,5 +88,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask("test", ["eslint", "jasmine"]);
     grunt.registerTask("testAndUploadCoverage", ["test", "coveralls:allTests"]);
-    grunt.registerTask("default", ["test", "connect", "watch"]);
+    grunt.registerTask("default", ["test", "serve"]);
+    grunt.registerTask("serve", ["connect", "watch"]);
 };
