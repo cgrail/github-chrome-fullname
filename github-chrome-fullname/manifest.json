@@ -1,11 +1,12 @@
 {
     "name": "Name instead of UserId for SAP GitHub",
     "description": "Display full name instead of UserId for SAP GitHub Enterprise instance",
-    "version": "0.3.6",
+    "version": "0.3.7",
     "manifest_version": 2,
     "content_scripts": [{
         "js": [
             "vendor/jquery-2.1.4.min.js",
+            "ChromeUserNameCache.js",
             "ReplaceRestricter.js",
             "UserIdStringReplacer.js",
             "UserIdReplacer.js",
