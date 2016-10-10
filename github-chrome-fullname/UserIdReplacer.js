@@ -13,6 +13,7 @@ UserIdReplacer.prototype.replaceUserIDs = function() {
     //Crawl through the whole DOM tree
     jQuery("*", "body")
         .andSelf()
+        .not("iframe")
         .contents()
         .each(function() {
 
