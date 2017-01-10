@@ -11,6 +11,7 @@ FetchMock.prototype.install = function() {
             return Promise.reject("No mocked request has been defined for: " + url);
         }
         return Promise.resolve({
+            status: mr[url].status,
             json: function() {
                 return mr[url];
             }
@@ -23,7 +24,8 @@ FetchMock.prototype.uninstall = function() {
     this.mockedRequests = {};
 };
 
-FetchMock.prototype.mockRequest = function(url, response) {
+FetchMock.prototype.mockRequest = function(url, response, status) {
+    response.status = status || 200;
     this.mockedRequests[url] = response;
 };
 

@@ -39,6 +39,11 @@ describe("ReplaceRestricterTest", function() {
         expect(restricter.isReplacementAllowed(jQuery("#gitCheckoutCommand"))).toBe(false);
     });
 
+    it("should allow to replace user id in the comment block of the pull request code tab", function() {
+        loadFixtures("testPullRequestCode.html");
+        expect(restricter.isReplacementAllowed(jQuery("#testAuthorLink").contents())).toBe(true);
+    });
+
     it("create a new issue is not an allowed url", function() {
         expect(restricter.isAllowedUrl("http://corporate.github/issues/new")).toBe(false);
     });

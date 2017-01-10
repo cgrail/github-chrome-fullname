@@ -23,6 +23,8 @@
     "url": "https://github.com/cgrail/github-chrome-fullname.git"
   },
   "scripts": {
+    "serve": "grunt serve",
+    "testonly": "grunt test",
     "test": "grunt testAndUploadCoverage"
   },
   "author": "Christian Grail",

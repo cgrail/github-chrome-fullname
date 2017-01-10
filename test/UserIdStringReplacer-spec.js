@@ -11,6 +11,7 @@ describe("UserIdStringReplacer", function() {
     var testUserName2 = "Superwoman";
     var testUserId3 = "D000003";
     var testUserName3 = "Cacheman";
+    var testUserId4 = "D000004";
     var fetchMock = new FetchMock();
     var userNameCacheMock = {
         getCachedUserNames: function () {
@@ -58,11 +59,11 @@ describe("UserIdStringReplacer", function() {
         });
     };
 
-    var stubAjaxRequestForUser = function(userId, userName){
+    var stubAjaxRequestForUser = function(userId, userName, status){
         var response = {
             "name": userName
         };
-        fetchMock.mockRequest(replacer.githubUserApiUrl + userId, response);
+        fetchMock.mockRequest(replacer.githubUserApiUrl + userId, response, status);
     };
 
     it("should return an empty string for an empty string", function(done) {
@@ -99,6 +100,11 @@ describe("UserIdStringReplacer", function() {
     it("should not replace a userId when the backend returns no userName", function(done) {
         stubAjaxRequestForUser(testUserId1, "");
         replaceAndAssert(testUserId1, testUserId1, done);
+    });
+
+    it("should not fail if the backend does not return http status code 200", function(done) {
+        stubAjaxRequestForUser(testUserId4, "", 404);
+        replaceAndAssert(testUserId4, testUserId4, done);
     });
 
     it("should not call the backend when the userName is already cached", function(done) {
