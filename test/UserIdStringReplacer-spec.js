@@ -35,9 +35,6 @@ describe("UserIdStringReplacer", function() {
                     get: function(key, fn){
                         fn();
 
-                    },
-                    set: function(key){
-
                     }
                 }
             }

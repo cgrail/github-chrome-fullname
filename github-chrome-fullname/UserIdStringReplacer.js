@@ -1,6 +1,5 @@
 "use strict";
 
-/*global chrome*/
 function UserIdStringReplacer(githubUrl, userNameCache) {
     this._userIdRegex = /[di]\d{6}|c\d{7}/gi;
     this._deferredUserMap = {};
