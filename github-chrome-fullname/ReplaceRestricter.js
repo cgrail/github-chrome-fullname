@@ -30,6 +30,10 @@ function ReplaceRestricter() {
     }, {
         "self": ".vcard-username"
     }];
+    // List of all elements which should be included even if other rules might restrict them. Introduced for author in code comments which was exclued by the exlusion of ".blob-wrapper"
+    this.alwaysIncludedElements = [{
+        "parents": "a.author"
+    }];
 }
 
 ReplaceRestricter.prototype.isAllowedUrl = function(currentUrl) {
@@ -45,6 +49,12 @@ ReplaceRestricter.prototype.isAllowedUrl = function(currentUrl) {
 ReplaceRestricter.prototype.isReplacementAllowed = function(jqElement) {
     if(!jqElement){
         return false;
+    }
+    //Check if the dom element should be included even if a restriction rule would not include it.
+    for (var i = 0; i < this.alwaysIncludedElements.length; i++) {
+        if((this.alwaysIncludedElements[i].parents ? jqElement.parents(this.alwaysIncludedElements[i].parents).length > 0 : false)){
+            return true;
+        }
     }
     //Check if this text matches the criteria for any of the "exceptions"
     for (var i = 0; i < this.restrictedElements.length; i++) {

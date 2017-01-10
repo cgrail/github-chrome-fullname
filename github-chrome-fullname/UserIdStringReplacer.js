@@ -62,7 +62,7 @@ UserIdStringReplacer.prototype.getUserName = function(userId) {
 //Lazy loads real user names from github
 UserIdStringReplacer.prototype.loadUserName = function(userId) {
     //Check if we didn't already load that ID
-    if (this._cachedUsers[userId]) {
+    if (this._cachedUsers[userId] && !this._deferredUserMap[userId]) {
         var userName = this._cachedUsers[userId];
         this._deferredUserMap[userId] = new Promise(function(resolve) {
             resolve({
@@ -79,6 +79,9 @@ UserIdStringReplacer.prototype.loadUserName = function(userId) {
         var that = this;
         this._deferredUserMap[userId] = fetch(githubUserApiUrl + userId)
             .then(function(response){
+                if(response.status != 200) {
+                    return {};
+                }
                 return response.json();
             }).then(function(data){
                 //Check if the user entered a real name
