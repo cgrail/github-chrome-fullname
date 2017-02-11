@@ -1,10 +1,6 @@
 language: node_js
 node_js:
-- '6.7.0'
-before_install: npm install -g grunt-cli
-install: npm install
-after_script:
-- ./node_modules/codacy-coverage/bin/codacy-coverage.js < temp/lcov/lcov.info
-env:
-  global:
-    secure: MqPG5vpHr4Q14bSHgAw0ehiv7oW1NFWpJAErrKb7zrxBojR97xSZbbdjmk3U0iOEpygHidIxTGFVTLHOMnoOWzgSiSDlpBM2JeOSKewLGpj8PVbP/mYBrbCrllpyHg6lj2JUbRwrEnWvWWgEGFhemp4UQ16ksUqxXkzzu1+/HroRKsSptcRvaDzSbEVNye7wZ2wsu5Q8GifNjbajUh7fT3hmYx7O6KU++D8av90mWXxQH2NOfG4oFRY3HRd9vsaur8hXx/4UNNlJgYG8WM7kfhP8C9wdfrQnYm1EaXO/9RwueT1OESV5OZQm+Xp2+bVP8hpv1l07XtFJGMHNfNMYTcCkh2wNcXINjlnXWE3zg5onSXrhqvgtKJpg4gpYCfQom10x8DkU5vdu/uQQd1OfY6fcnGcRTcgJpJO+gnQPUzPlcs0HQP04pq0tllJ/Z22eckoznW1GYWToS5IVbxRkbkcOoeSZVUQGkNmzoay/boCeDZjrKQ1fPwj25Pj5vaUCT6bUU39qOuZJfb5de95usMCcbCRUKZtQtADnK27YroLjY4yAhmHq/oOejS9GMmczahQPuLVhpASMFRGwDz2G9430EimjIuWBlKtKwPeUkUuJ8+O5jXfQ5qTkYLGy3UvWAj9lG0+htoMedl+vGo9GVMEPK6FELBrLxwrrBCiZPPc=
+    - "6"
+    - "6.1"
+    - "5"
+    - "4"

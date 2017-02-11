@@ -1,0 +1,11 @@
+[include]
+./src/**/*.js
+
+[ignore]
+.*/build/.*
+\.\./.*
+
+[options]
+module.use_strict=true
+munge_underscores=true
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
