@@ -30,3 +30,4 @@ Contributors
 
 - Initial version by Thomas Uhde https://github.com/acidix
 - Revised and enhanced by Christian Grail https://www.linkedin.com/in/cgrail
+- Revised by Arwed Mett
