@@ -2,6 +2,7 @@
   "name": "github-chrome-fullname",
   "version": "0.3.9",
   "description": "Full name instead of UserId for SAP GitHub",
+  "main": "build/index.bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/cgrail/github-chrome-fullname.git"
