@@ -1,5 +1,4 @@
 language: node_js
-install: npm
 node_js:
     - "6"
     - "6.1"
