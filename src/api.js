@@ -21,7 +21,7 @@ export class API3 {
 	_root: string
 
 	constructor(root: string) {
-		this._root = url.resolve(root, "/api/v3")
+		this._root = url.resolve(root, "/api/v3/")
 	}
 
 	getRoute(route: string) {
