@@ -13,6 +13,16 @@ export class Replacer {
 }
 
 export class NodeReplacer extends Replacer {
+	_restrictors: Array<(node: Node) => boolean> = []
+
+	restrict(restrictor: (node: Node) => boolean) {
+		this._restrictors.push(restrictor)
+	}
+
+	_checkRestriction(node: Node): boolean {
+		return this._restrictors.reduce((a, b) => a && b(node), true)
+	}
+
 	async watch(element: HTMLElement) {
 		await this._replaceAll(element)
 		const observer = new MutationObserver(this._handleChange.bind(this))
@@ -32,11 +42,14 @@ export class NodeReplacer extends Replacer {
 		await Promise.all(pending)
 	}
 
-	async _replaceAll(element: HTMLElement) {
+	async _replaceAll(element: Node) {
 		const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
 		const pending = []
 		while(walker.nextNode()) {
-			pending.push(this._replaceNode(walker.currentNode))
+			const { currentNode } = walker
+			if(this._checkRestriction(currentNode)) {
+				pending.push(this._replaceNode(currentNode))
+			}
 		}
 		await Promise.all(pending)
 	}
