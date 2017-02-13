@@ -24,13 +24,13 @@ export class API3 {
 		this._root = url.resolve(root, "/api/v3/")
 	}
 
-	getRoute(route: string) {
+	_getRoute(route: string) {
 		return url.resolve(this._root, route)
 	}
 
 	async getUser(id: string): Promise<User> {
 
-		const response = await fetch(this.getRoute(`users/${ id }`), {
+		const response = await window.fetch(this._getRoute(`users/${ id }`), {
 			method: "GET",
 			cache: "default"
 		})

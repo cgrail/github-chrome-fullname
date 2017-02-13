@@ -1,5 +1,6 @@
 // @flow
 import "babel-polyfill"
+import "isomorphic-fetch"
 import { API3 } from "./api"
 import { NodeReplacer } from "./replacer"
 
