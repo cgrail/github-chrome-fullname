@@ -3,17 +3,14 @@ import { API3 } from "./api"
 
 declare var NodeFilter: any
 
-export class Replacer {
-	__api: API3
-	__idRegex: RegExp = /\b([di]\d{6}|c\d{7})\b/gi
+export class NodeReplacer {
+	_api: API3
+	_idRegex: RegExp = /\b([di]\d{6}|c\d{7})\b/gi
+	_restrictors: Array<(node: Node) => boolean> = []
 
 	constructor(api: API3) {
-		this.__api = api
+		this._api = api
 	}
-}
-
-export class NodeReplacer extends Replacer {
-	_restrictors: Array<(node: Node) => boolean> = []
 
 	restrict(restrictor: (node: Node) => boolean) {
 		this._restrictors.push(restrictor)
@@ -24,8 +21,8 @@ export class NodeReplacer extends Replacer {
 	}
 
 	async watch(element: HTMLElement) {
-		await this._replaceAll(element)
-		const observer = new MutationObserver(this._handleChange.bind(this))
+		await this.replace(element)
+		const observer = new window.MutationObserver(this._handleChange.bind(this))
 		observer.observe(element, {
 			childList: true,
 			characterData: true,
@@ -37,13 +34,13 @@ export class NodeReplacer extends Replacer {
 	async _handleChange(mutations: Array<MutationRecord>, _observer: MutationObserver) {
 		const pending = []
 		for(const { target } of mutations) {
-			pending.push(this._replaceAll(target))
+			pending.push(this.replace(target))
 		}
 		await Promise.all(pending)
 	}
 
-	async _replaceAll(element: Node) {
-		const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+	async replace(element: Node) {
+		const walker = document.createTreeWalker(element, window.NodeFilter.SHOW_TEXT)
 		const pending = []
 		while(walker.nextNode()) {
 			const { currentNode } = walker
@@ -58,28 +55,17 @@ export class NodeReplacer extends Replacer {
 		if(!node.nodeValue) {
 			return
 		}
-		const ids = node.nodeValue.match(this.__idRegex) || []
+		const ids = node.nodeValue.match(this._idRegex) || []
 		const pending = []
 		for(const id of ids) {
-			const replacer = new IdReplacer(this.__api, id, node)
-			pending.push(replacer.replace())
+			pending.push(this._replaceId(id, node))
 		}
 		await Promise.all(pending)
 	}
-}
 
-export class IdReplacer extends Replacer {
-	_id: string
-	_node: Node
-
-	constructor(api: API3, id: string, node: Node) {
-		super(api)
-		this._id = id
-		this._node = node
-	}
-
-	async replace() {
-		const user = await this.__api.getUser(this._id)
-		this._node.nodeValue = this._node.nodeValue.replace(this._id, user.getName())
+	async _replaceId(id: string, node: Node) {
+		const user = await this._api.getUser(id)
+		node.nodeValue = node.nodeValue.replace(id, user.getName())
 	}
 }
+

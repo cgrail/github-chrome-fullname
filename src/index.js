@@ -10,4 +10,4 @@ const replacer = new NodeReplacer(api)
 // $FlowIgnore
 replacer.restrict((node: Node) => node.parentElement.nodeName === "A")
 
-replacer.watch(document.body)
+replacer.watch(document)

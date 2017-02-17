@@ -29,12 +29,20 @@ export class API3 {
 	}
 
 	async getUser(id: string): Promise<User> {
+		let data = {
+			id,
+			name: id
+		}
+		try {
+			const response = await window.fetch(this._getRoute(`users/${ id }`), {
+				method: "GET",
+				cache: "default"
+			})
+			data = await response.json()
+		} catch(e) {
+			console.error(`Could not get user ${ id }`)
+		}
 
-		const response = await window.fetch(this._getRoute(`users/${ id }`), {
-			method: "GET",
-			cache: "default"
-		})
-
-		return new User(await response.json())
+		return new User(data)
 	}
 }

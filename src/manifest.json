@@ -8,8 +8,8 @@
             "index.bundle.js"
         ],
         "matches": [
-            "*://github.wdf.sap.corp/*",
-            "*://huboard.mo.sap.corp/*"
+            "https://github.wdf.sap.corp/*",
+            "https://huboard.mo.sap.corp/*"
         ],
         "exclude_matches": [
         	"https://github.wdf.sap.corp/pages*"
