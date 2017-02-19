@@ -36,14 +36,12 @@ class MutationObserver {
 	}
 }
 
-global.window.MutationObserver = MutationObserver
 
 if(typeof document === "undefined") {
     global.document = jsdom.jsdom("<html><body></body></html>")
     global.window = document.defaultView
     global.navigator = window.navigator
-	global.window.fetch = fetch
-	global.window.Response = Response
+	global.window.MutationObserver = MutationObserver
 }
 
 

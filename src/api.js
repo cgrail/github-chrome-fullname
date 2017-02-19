@@ -34,9 +34,9 @@ export class API3 {
 			name: id
 		}
 		try {
-			const response = await window.fetch(this._getRoute(`users/${ id }`), {
+			const response = await fetch(this._getRoute(`users/${ id }`), {
 				method: "GET",
-				cache: "default"
+				cache: "force-cache"
 			})
 			data = await response.json()
 		} catch(e) {

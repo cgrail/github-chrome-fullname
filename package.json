@@ -41,7 +41,6 @@
     "flow": "^0.2.3",
     "flow-bin": "^0.37.4",
     "flow-typed": "^2.0.0",
-    "fs-extra": "^2.0.0",
     "fs-promise": "^2.0.0",
     "jsdom": "^9.11.0",
     "mocha": "^3.2.0",
@@ -50,7 +49,6 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.22.0",
-    "isomorphic-fetch": "^2.2.1",
-    "webcomponents.js": "webcomponents/webcomponentsjs"
+    "isomorphic-fetch": "^2.2.1"
   }
 }

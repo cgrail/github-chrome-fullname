@@ -5,6 +5,7 @@ import fs from "fs-promise"
 import path from "path"
 import { API3 } from "../src/api"
 import { NodeReplacer } from "../src/replacer"
+import restrict from "../src/restrict"
 import assert from "assert"
 
 function timeout(i: number) {
@@ -13,7 +14,9 @@ function timeout(i: number) {
 
 function createReplacer() {
 	const api = new API3("https://github.wdf.sap.corp/")
-	return new NodeReplacer(api)
+	const replacer = new NodeReplacer(api)
+	restrict(replacer)
+	return replacer
 }
 
 async function checkPage(beforePath: string, afterPath: string) {
@@ -25,12 +28,12 @@ async function checkPage(beforePath: string, afterPath: string) {
 }
 
 describe("replacer", () => {
+	let oldFetch = global.fetch
 
-
-	beforeEach(async function() {
-		window.fetch = url => {
+	before(async function() {
+		global.fetch = url => {
 			if(url === "https://github.wdf.sap.corp/api/v3/users/d000007") {
-				return new window.Response(JSON.stringify({"name": "James Bond"}), {
+				return new Response(JSON.stringify({"name": "James Bond"}), {
 					status: 200,
 					headers: {
 						"Content-type": "application/json"
@@ -38,6 +41,10 @@ describe("replacer", () => {
 				})
 			}
 		}
+	})
+
+	after(() => {
+		global.fetch = oldFetch
 	})
 
 	describe("copy command line", () => {
@@ -77,7 +84,7 @@ describe("replacer", () => {
 			const child = document.createElement("a")
 			child.innerHTML = "d000007"
 			dom.body.children[0].appendChild(child)
-			await timeout(400)
+			await timeout(10)
 			assert.strictEqual(child.innerHTML, "James Bond")
 		})
 	})

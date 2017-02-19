@@ -10,21 +10,21 @@ describe("api", () => {
 	let server
 
 	beforeEach(async function() {
-		server = sinon.stub(window, "fetch")
-		const res = new window.Response(JSON.stringify({"name": "Max Mustermann"}), {
+		server = sinon.stub(global, "fetch")
+		const res = new Response(JSON.stringify({"name": "Max Mustermann"}), {
 			status: 200,
 			headers: {
 				"Content-type": "application/json"
 			}
 		})
 
-		window.fetch
+		fetch
 			.withArgs("http://github.wdf.sap.corp/api/v3/users/D000000")
 			.returns(Promise.resolve(res))
 	})
 
 	afterEach(async function() {
-		window.fetch.restore()
+		fetch.restore()
 	})
 	sinon.spy()
 	const api = new API3("http://github.wdf.sap.corp/")

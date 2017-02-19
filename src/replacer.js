@@ -20,7 +20,7 @@ export class NodeReplacer {
 		return this._restrictors.reduce((a, b) => a && b(node), true)
 	}
 
-	async watch(element: HTMLElement) {
+	async watch(element: Document) {
 		await this.replace(element)
 		const observer = new window.MutationObserver(this._handleChange.bind(this))
 		observer.observe(element, {
