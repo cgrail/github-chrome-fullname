@@ -11,7 +11,7 @@
     "start": "npm run build -- --watch",
     "build": "webpack --config webpack.config.js",
     "test": "npm run lint && npm run flow && npm run mocha",
-    "mocha": "mocha --compilers js:babel-register --timeout 500 --slow 30 --throw-deprecation --use_strict",
+    "mocha": "mocha --compilers js:babel-register --timeout 1000 --slow 30 --throw-deprecation --use_strict",
     "clean": "rm -rf build",
     "flow": "flow",
     "lint": "eslint src",
