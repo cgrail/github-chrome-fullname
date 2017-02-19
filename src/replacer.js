@@ -38,6 +38,7 @@ export class NodeReplacer {
 		const pending = []
 		while(walker.nextNode()) {
 			const { currentNode } = walker
+			// $FlowIgnore A text node must always have a parentElement
 			if(this._restrictor.check(currentNode.parentElement)) {
 				pending.push(this._replaceNode(currentNode))
 			}

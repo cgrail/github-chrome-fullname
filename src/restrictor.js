@@ -4,38 +4,38 @@
  * Returns a function which checks of any parent fulfills the criteria defined by the check function.
  * E.g. Can be used to find out if any parent has a class XY
  */
-function parents(check: (node: Node) => boolean): (node: Node) => boolean {
-	return (node: Node) => node ? check(node) || parents(check)(node.parentElement) : false
+function parents(check: (node: Element) => boolean) {
+	return (node: Element | null | typeof undefined) => node ? check(node) || parents(check)(node.parentElement) : false
 }
 
 /**
  * Returns a functions which checks if the parent fulfills a certain criteria defined by the check function.
  * E.g. Can be used to check if the parent has a class XY
  */
-function parent(check: (node: Node) => boolean): (node: Node) => boolean {
-	return (node: Node) => check(node.parentElement)
+function parent(check: (node: Element) => boolean) {
+	return ({ parentElement }: Node) => parentElement ? check(parentElement) : false
 }
 
 /**
  * Returns a function which checks if the element itself or any parent fulfills a criteria.
  */
-function inside(check: (node: Node) => boolean): (node: Node) => boolean {
-	return (node: Node) => check(node) || parents(check)(node)
+function inside(check: (node: Element) => boolean) {
+	return (node: Element) => check(node) || parents(check)(node)
 }
 
 /**
  * Returns a function which checks if an element has a certain class.
  */
-function className(className: string): (node: Node) => boolean {
-	return ({ classList }: Node) => classList.contains(className)
+function className(className: string) {
+	return ({ classList }: Element) => classList.contains(className)
 }
 
 /**
  * Returns a function which checks if an element has multiple defined classes.
  */
-function classNames(classNames: Array<string>): (node: Node) => boolean {
-	return ({ classList }: Node) =>
-		classNames.reduce((a, b) => classList.contains(a) && classList.contains(b))
+function classNames(classNames: Array<string>) {
+	return ({ classList }: Element) =>
+		classNames.reduce((a, b) => a && classList.contains(b), true)
 }
 
 /**
@@ -45,8 +45,8 @@ function classNames(classNames: Array<string>): (node: Node) => boolean {
  * if element is anchor: x(element) = true
  * else: x(element) = false
  */
-function tagName(name: string): (node: Node) => boolean {
-	return ({ tagName }: Node) => tagName.toLowerCase() === name.toLowerCase()
+function tagName(name: string) {
+	return ({ tagName }: Element) => tagName.toLowerCase() === name.toLowerCase()
 }
 
 /**
@@ -56,8 +56,8 @@ function tagName(name: string): (node: Node) => boolean {
  * if element has id myId: x(element) = true 
  * else: x(element) = false
  */
-function idName(name: string): (node: Node) => boolean {
-	return ({ id }: Node) => id === name
+function idName(name: string) {
+	return ({ id }: Element) => id === name
 }
 
 /**
@@ -67,8 +67,8 @@ function idName(name: string): (node: Node) => boolean {
  * if check1(element) && check2(element): x(element) = true
  * else x(element) = false
  */
-function and(...checks: Array<(node: Node) => boolean>): (node: Node) => boolean {
-	return (node: Node) => checks.reduce((a, b) => a(node) && b(node))
+function and(...checks: Array<(node: Element) => boolean>) {
+	return (node: Element) => checks.reduce((a, b) => a && b(node), true)
 }
 
 /**
@@ -79,8 +79,8 @@ function and(...checks: Array<(node: Node) => boolean>): (node: Node) => boolean
  * in order to replace the user id of an element.
  */
 export default class Restrictor {
-	_restrictions: Array<(node: Node) => boolean> = []
-	_exceptions: Array<(node: Node) => boolean> = []
+	_restrictions: Array<(node: Element) => boolean> = []
+	_exceptions: Array<(node: Element) => boolean> = []
 
 	constructor() {
 		this.restrict(inside(tagName("TEXTAREA")))
@@ -104,7 +104,7 @@ export default class Restrictor {
 	 * A restriction reduces the amount of elements of the image set of the restrictor.
 	 * This means if the restriction is met the check function will return false.
 	 */
-	restrict(restriction: (node: Node) => boolean): Restrictor {
+	restrict(restriction: (node: Element) => boolean): Restrictor {
 		this._restrictions.push(restriction)
 		return this
 	}
@@ -113,16 +113,16 @@ export default class Restrictor {
 	 * Add an exception.
 	 * An exception prevents an element to be affected by a restriction.
 	 */
-	except(exception: (node: Node) => boolean): Restrictor {
+	except(exception: (node: Element) => boolean): Restrictor {
 		this._exceptions.push(exception)
 		return this
 	}
 
-	_checkExceptions(node: Node): boolean {
+	_checkExceptions(node: Element): boolean {
 		return this._exceptions.reduce((a, b) => a || b(node), false)
 	}
 
-	_checkRestrictions(node: Node): boolean {
+	_checkRestrictions(node: Element): boolean {
 		return this._restrictions.reduce((a, b) => a && !b(node), true)
 	}
 	
@@ -130,7 +130,7 @@ export default class Restrictor {
 	 * This function can be executed to check if an element is in the image set
 	 * of the restrictor.
 	 */
-	check(node: Node): boolean {
+	check(node: Element): boolean {
 		return this._checkExceptions(node) || this._checkRestrictions(node)
 	}
 }
