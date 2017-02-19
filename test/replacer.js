@@ -21,7 +21,7 @@ async function checkPage(beforePath: string, afterPath: string) {
 	const after = jsdom(await fs.readFile(afterPath))
 	const replacer = createReplacer()
 	await replacer.replace(before)
-	assert.strictEqual(before.body.innerHTML, after.body.innerHTML)
+	assert.strictEqual(before.body.textContent, after.body.textContent)
 }
 
 describe("replacer", () => {

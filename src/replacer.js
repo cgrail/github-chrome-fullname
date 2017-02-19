@@ -14,7 +14,7 @@ export class NodeReplacer {
 	}
 
 
-	async watch(element: Document) {
+	async watch(element: Element) {
 		await this.replace(element)
 		const observer = new window.MutationObserver(this._handleChange.bind(this))
 		observer.observe(element, {
@@ -45,7 +45,20 @@ export class NodeReplacer {
 		await Promise.all(pending)
 	}
 
+	_blurNode({ parentElement }: Node) {
+		if(parentElement instanceof window.HTMLElement) {
+			parentElement.style.filter = "blur(0.8px)"
+		}
+	}
+
+	_unblurNode({ parentElement }: Node) {
+		if(parentElement instanceof window.HTMLElement) {
+			parentElement.style.filter = ""
+		}
+	}
+
 	async _replaceNode(node: Node) {
+		this._blurNode(node)
 		if(!node.nodeValue) {
 			return
 		}
@@ -55,6 +68,7 @@ export class NodeReplacer {
 			pending.push(this._replaceId(id, node))
 		}
 		await Promise.all(pending)
+		this._unblurNode(node)
 	}
 
 	async _replaceId(id: string, node: Node) {
