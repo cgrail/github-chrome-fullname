@@ -1,4 +1,4 @@
 {
-    "presets": ["es2016", "stage-0", "react"],
+    "presets": ["latest", "stage-0"],
     "plugins": ["babel-plugin-transform-flow-strip-types", "transform-es2015-modules-commonjs"]
 }
