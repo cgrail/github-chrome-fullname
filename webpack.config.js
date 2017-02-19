@@ -1,6 +1,5 @@
 var path = require("path")
 var CopyWebpackPlugin = require("copy-webpack-plugin")
-var BabiliPlugin = require("babili-webpack-plugin")
 
 module.exports = {
     entry: {
@@ -31,7 +30,6 @@ module.exports = {
                 from: path.resolve(__dirname, "src/img/"),
                 to: path.resolve(__dirname, "build/img/")
             }
-        ]),
-        new BabiliPlugin
+        ])
     ]
 }

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "npm run build -- --watch",
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js -p",
     "test": "npm run lint && npm run flow && npm run mocha",
     "mocha": "mocha --compilers js:babel-register --timeout 1500 --slow 30 --throw-deprecation --use_strict",
     "clean": "rm -rf build",
@@ -32,7 +32,6 @@
     "babel-plugin-transform-flow-strip-types": "^6.21.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
-    "babili-webpack-plugin": "^0.0.10",
     "copy-webpack-plugin": "^4.0.1",
     "eslint": "^3.12.2",
     "eslint-plugin-flowtype": "^2.30.0",
