@@ -5,7 +5,6 @@ import fs from "fs-promise"
 import path from "path"
 import { API3 } from "../src/api"
 import { NodeReplacer } from "../src/replacer"
-import restrict from "../src/restrict"
 import assert from "assert"
 
 function timeout(i: number) {
@@ -14,9 +13,7 @@ function timeout(i: number) {
 
 function createReplacer() {
 	const api = new API3("https://github.wdf.sap.corp/")
-	const replacer = new NodeReplacer(api)
-	restrict(replacer)
-	return replacer
+	return new NodeReplacer(api)
 }
 
 async function checkPage(beforePath: string, afterPath: string) {

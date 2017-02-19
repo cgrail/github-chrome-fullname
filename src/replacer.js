@@ -1,24 +1,18 @@
 // @flow
 import { API3 } from "./api"
+import Restrictor from "./restrictor"
 
 declare var NodeFilter: any
 
 export class NodeReplacer {
 	_api: API3
 	_idRegex: RegExp = /\b([di]\d{6}|c\d{7})\b/gi
-	_restrictors: Array<(node: Node) => boolean> = []
+	_restrictor: Restrictor = new Restrictor
 
 	constructor(api: API3) {
 		this._api = api
 	}
 
-	restrict(restrictor: (node: Node) => boolean) {
-		this._restrictors.push(restrictor)
-	}
-
-	_checkRestriction(node: Node): boolean {
-		return this._restrictors.reduce((a, b) => a && b(node), true)
-	}
 
 	async watch(element: Document) {
 		await this.replace(element)
@@ -44,7 +38,7 @@ export class NodeReplacer {
 		const pending = []
 		while(walker.nextNode()) {
 			const { currentNode } = walker
-			if(this._checkRestriction(currentNode)) {
+			if(this._restrictor.check(currentNode.parentElement)) {
 				pending.push(this._replaceNode(currentNode))
 			}
 		}
