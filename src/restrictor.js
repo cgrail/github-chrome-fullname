@@ -126,7 +126,7 @@ export default class Restrictor {
 	 * This function can be executed to check if an element is in the image set
 	 * of the restrictor.
 	 */
-	check(node: Element): boolean {
-		return this._checkExceptions(node) || this._checkRestrictions(node)
+	check(node: Element | null | typeof undefined): boolean {
+		return node ? this._checkExceptions(node) || this._checkRestrictions(node) : false
 	}
 }
