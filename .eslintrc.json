@@ -31,6 +31,10 @@
                 "argsIgnorePattern": "^_",
                 "varsIgnorePattern": "^_"
             }
+        ],
+        "max-len": [
+            "error",
+            90
         ]
     },
     "plugins": [ "flowtype" ]

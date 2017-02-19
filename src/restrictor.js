@@ -1,23 +1,18 @@
 // @flow
 
 /**
- * Returns a function which checks of any parent fulfills the criteria defined by the check function.
+ * Returns a function which checks of any parent fulfills the criteria
+ * defined by the check function.
  * E.g. Can be used to find out if any parent has a class XY
  */
 function parents(check: (node: Element) => boolean) {
-	return (node: Element | null | typeof undefined) => node ? check(node) || parents(check)(node.parentElement) : false
+	return (node: Element | null | typeof undefined) => 
+		node ? check(node) || parents(check)(node.parentElement) : false
 }
 
 /**
- * Returns a functions which checks if the parent fulfills a certain criteria defined by the check function.
- * E.g. Can be used to check if the parent has a class XY
- */
-function parent(check: (node: Element) => boolean) {
-	return ({ parentElement }: Node) => parentElement ? check(parentElement) : false
-}
-
-/**
- * Returns a function which checks if the element itself or any parent fulfills a criteria.
+ * Returns a function which checks if the element itself or any parent
+ * fulfills a criteria.
  */
 function inside(check: (node: Element) => boolean) {
 	return (node: Element) => check(node) || parents(check)(node)
@@ -28,14 +23,6 @@ function inside(check: (node: Element) => boolean) {
  */
 function className(className: string) {
 	return ({ classList }: Element) => classList.contains(className)
-}
-
-/**
- * Returns a function which checks if an element has multiple defined classes.
- */
-function classNames(classNames: Array<string>) {
-	return ({ classList }: Element) =>
-		classNames.reduce((a, b) => a && classList.contains(b), true)
 }
 
 /**
@@ -84,15 +71,24 @@ export default class Restrictor {
 
 	constructor() {
 		this.restrict(inside(tagName("TEXTAREA")))
-			.restrict(inside(tagName("PRE"))) // No replace for anything that is preformatted
-			.restrict(inside(tagName("CODE"))) // No replace for anything which seems like code
+			// No replace for anything that is preformatted
+			.restrict(inside(tagName("PRE")))
+			// No replace for anything which seems like code
+			.restrict(inside(tagName("CODE")))
 			.restrict(inside(className("ace_editor")))
-			.restrict(inside(className("form-content"))) // Edit comment text area
-			.restrict(inside(className("commit-ref"))) // Visible remote branch name. It should be able to use this name in the terminal
-			.restrict(inside(className("merge-pr-more-commits"))) // Comment for fork: Add more commits by pushing to the
-			.restrict(inside(className("protip"))) // Exclude protip
-			.restrict(inside(className("blob-wrapper"))) // exclude github blobs
-			.restrict(inside(className("copyable-terminal"))) // UserIds which are commands
+			// Edit comment text area
+			.restrict(inside(className("form-content")))
+			// Visible remote branch name.
+			// It should be able to use this name in the terminal
+			.restrict(inside(className("commit-ref")))
+			// Comment for fork: Add more commits by pushing to the
+			.restrict(inside(className("merge-pr-more-commits")))
+			// Exclude protip
+			.restrict(inside(className("protip")))
+			// exclude github blobs
+			.restrict(inside(className("blob-wrapper")))
+			// UserIds which are commands
+			.restrict(inside(className("copyable-terminal")))
 			.restrict(inside(className("js-live-clone-url")))
 			.restrict(idName("simpleUserId"))
 			.restrict(className("vcard-username"))
