@@ -9,8 +9,7 @@
         ],
         "matches": [
             "https://github.wdf.sap.corp/*",
-            "https://huboard.mo.sap.corp/*",
-            "https://github.com/*"
+            "https://huboard.mo.sap.corp/*"
         ],
         "exclude_matches": [
         	"https://github.wdf.sap.corp/pages*"
