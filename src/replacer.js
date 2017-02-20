@@ -2,6 +2,10 @@
 import { API3 } from "./api"
 import Restrictor from "./restrictor"
 
+function timeout(time: number) {
+	return new Promise(resolve => setTimeout(resolve, time))
+}
+
 declare var NodeFilter: any
 
 export class NodeReplacer {
@@ -16,7 +20,7 @@ export class NodeReplacer {
 
 	async watch(element: Element) {
 		await this.replace(element)
-		const observer = new window.MutationObserver(this._handleChange.bind(this))
+		const observer = new window.MutationObserver(this._getChangeHandler())
 		observer.observe(element, {
 			childList: true,
 			characterData: true,
@@ -25,24 +29,30 @@ export class NodeReplacer {
 		return this
 	}
 
-	async _handleChange(mutations: Array<MutationRecord>, _observer: MutationObserver) {
-		const pending = []
-		for(const { target } of mutations) {
-			pending.push(this.replace(target))
+	_getChangeHandler() {
+		return (mutations: Array<MutationRecord>, _observer: MutationObserver) => {
+			for(const { target } of mutations) {
+				this.replace(target)
+			}
 		}
-		await Promise.all(pending)
 	}
 
 	async replace(element: Node) {
+		console.info("start replacing")
+		const start = Date.now()
 		const walker = document.createTreeWalker(element, window.NodeFilter.SHOW_TEXT)
 		const pending = []
+		let x = 0
 		while(walker.nextNode()) {
-			const { currentNode } = walker
-			if(this._restrictor.check(currentNode.parentElement)) {
-				pending.push(this._replaceNode(currentNode))
+			if(++x === 500) {
+				x = 0
+				await timeout(0)
 			}
+			const { currentNode } = walker
+			pending.push(this._replaceNode(currentNode))
 		}
 		await Promise.all(pending)
+		console.info(`finished replacing in ${ Date.now() - start } milliseconds`)
 	}
 
 	_blurNode({ parentElement }: Node) {
@@ -58,15 +68,18 @@ export class NodeReplacer {
 	}
 
 	async _replaceNode(node: Node) {
-		this._blurNode(node)
 		if(!node.nodeValue) {
 			return
 		}
 		const ids = node.nodeValue.match(this._idRegex) || []
+		if(ids.length <= 0 || !this._restrictor.check(node.parentElement)) {
+			return
+		}
 		const pending = []
 		for(const id of ids) {
 			pending.push(this._replaceId(id, node))
 		}
+		this._blurNode(node)
 		await Promise.all(pending)
 		this._unblurNode(node)
 	}

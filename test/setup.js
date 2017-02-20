@@ -29,7 +29,6 @@ class MutationObserver {
 		const old = doc[name].bind(doc)
 		doc[name] = (child, ...args) => {
 			const record = new MutationRecord(child)
-
 			this._handler([ record ])
 			old(child, ...args)
 		}
