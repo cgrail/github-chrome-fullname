@@ -90,4 +90,15 @@ describe("restrictor", () => {
 
 		assert(restrictor.check(e))
 	})
+
+	it("every author in a link should be replaced even though it is restricted", () => {
+		const e = elem`<div>not restricted</div>`
+		const restrictor2 = new Restrictor
+
+		restrictor2
+			.restrict(() => true)
+			.except(() => true)
+
+		assert(restrictor2.check(e))
+	})
 })
