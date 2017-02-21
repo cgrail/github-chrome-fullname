@@ -10,7 +10,7 @@ declare var NodeFilter: any
 
 export class NodeReplacer {
 	_api: API3
-	_idRegex: RegExp = /\b([di]\d{6}|c\d{7})\b/gi
+	_idRegex: RegExp = /[di]\d{6}|c\d{7}/gi
 	_restrictor: Restrictor = new Restrictor
 
 	constructor(api: API3) {
