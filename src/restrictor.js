@@ -37,17 +37,6 @@ function tagName(name: string) {
 }
 
 /**
- * Returns a function which checks if an element has a certain id.
- * E.g.
- * x = idName("myId")
- * if element has id myId: x(element) = true 
- * else: x(element) = false
- */
-function idName(name: string) {
-	return ({ id }: Element) => id === name
-}
-
-/**
  * Returns a function which requires to checks to be true.
  * E.g:
  * x = and(check1, check2)
@@ -90,8 +79,7 @@ export default class Restrictor {
 			// UserIds which are commands
 			.restrict(inside(className("copyable-terminal")))
 			.restrict(inside(className("js-live-clone-url")))
-			.restrict(idName("simpleUserId"))
-			.restrict(className("vcard-username"))
+			.restrict(inside(className("vcard-username")))
 			.except(inside(and(tagName("A"), className("author"))))
 	}
 
