@@ -2,34 +2,51 @@
   "name": "github-chrome-fullname",
   "version": "0.3.9",
   "description": "Full name instead of UserId for SAP GitHub",
-  "main": "Gruntfile.js",
-  "devDependencies": {
-    "codacy-coverage": "^2.0.0",
-    "es6-promise": "^4.0.3",
-    "grunt": "^1.0.1",
-    "grunt-codeclimate-reporter": "^1.0.0",
-    "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-jasmine": "^1.0.3",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-coveralls": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
-    "grunt-notify": "^0.4.1",
-    "grunt-template-jasmine-istanbul": "^0.5.0",
-    "jasmine-jquery": "^2.1.0",
-    "jquery": "^3.1.1"
-  },
+  "main": "build/index.bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/cgrail/github-chrome-fullname.git"
   },
   "scripts": {
-    "serve": "grunt serve",
-    "testonly": "grunt test",
-    "test": "grunt testAndUploadCoverage"
+    "start": "npm run build -- --watch",
+    "build": "webpack --config webpack.config.js -p",
+    "test": "npm run lint && npm run flow && npm run mocha",
+    "mocha": "mocha --compilers js:babel-register --timeout 1500 --slow 30 --throw-deprecation --use_strict",
+    "clean": "rm -rf build",
+    "flow": "flow",
+    "lint": "eslint src",
+    "prepublish": "npm run clean && npm run test && npm run build"
   },
   "author": "Christian Grail",
   "bugs": {
     "url": "https://github.com/cgrail/github-chrome-fullname/issues"
   },
-  "homepage": "https://github.com/cgrail/github-chrome-fullname"
+  "homepage": "https://github.com/cgrail/github-chrome-fullname",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.21.0",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "eslint": "^3.12.2",
+    "eslint-plugin-flowtype": "^2.30.0",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.37.4",
+    "flow-typed": "^2.0.0",
+    "fs-promise": "^2.0.0",
+    "jsdom": "^9.11.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7",
+    "webpack": "^2.2.1"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.22.0",
+    "babel-register": "^6.23.0",
+    "isomorphic-fetch": "^2.2.1"
+  }
 }

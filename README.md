@@ -20,13 +20,11 @@ https://chrome.google.com/webstore/detail/sap-github-full-name/dpbnhgcdklhbhlemn
 Todo
 ----
 
-- Remove dependency to jQuery. Use native selectors and native promise object.
 - Enable configuration of Enterprise Github instance
-- Find a smarter way to detect page navigations instead of using timeout
-
 
 Contributors
 ------------
 
 - Initial version by Thomas Uhde https://github.com/acidix
 - Revised and enhanced by Christian Grail https://www.linkedin.com/in/cgrail
+- Revised by Arwed Mett
