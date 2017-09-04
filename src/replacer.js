@@ -55,18 +55,6 @@ export class NodeReplacer {
 		console.info(`finished replacing in ${ Date.now() - start } milliseconds`)
 	}
 
-	_blurNode({ parentElement }: Node) {
-		if(parentElement instanceof window.HTMLElement) {
-			parentElement.style.filter = "blur(0.8px)"
-		}
-	}
-
-	_unblurNode({ parentElement }: Node) {
-		if(parentElement instanceof window.HTMLElement) {
-			parentElement.style.filter = ""
-		}
-	}
-
 	async _replaceNode(node: Node) {
 		if(!node.nodeValue) {
 			return
@@ -79,14 +67,14 @@ export class NodeReplacer {
 		for(const id of ids) {
 			pending.push(this._replaceId(id, node))
 		}
-		this._blurNode(node)
 		await Promise.all(pending)
-		this._unblurNode(node)
 	}
 
 	async _replaceId(id: string, node: Node) {
 		const user = await this._api.getUser(id)
-		node.nodeValue = node.nodeValue.replace(id, user.getName())
+		if(user && user.getName()){
+			node.nodeValue = node.nodeValue.replace(id, user.getName())
+		}
 	}
 }
 
