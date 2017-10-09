@@ -6,16 +6,20 @@
 SAP GitHub Full-Name
 =====================
 
-Chrome extension to display full-name(s) instead of SAP D- / I-User in GitHub Enterprise.
+Chrome/Firefox extension to display full-name(s) instead of SAP D- / I-User in GitHub Enterprise.
 
 [![Chrome Extension screenshot](https://github.com/cgrail/github-chrome-fullname/raw/master/chrome-store-screenshot.png)](https://chrome.google.com/webstore/detail/sap-github-full-name/dpbnhgcdklhbhlemnffdbikcbfggcocd)
 
 Installation
 ------------
 
-Please go to the Chrome Webstore via the following link and install the Extension:
+You can install the Chrome Extension from the Chrome Webstore:
 
 https://chrome.google.com/webstore/detail/sap-github-full-name/dpbnhgcdklhbhlemnffdbikcbfggcocd
+
+The Firefox version can be installed from the Firefox Addon Page:
+
+https://addons.mozilla.org/de/firefox/addon/sap-github/
 
 Todo
 ----
@@ -27,4 +31,4 @@ Contributors
 
 - Initial version by Thomas Uhde https://github.com/acidix
 - Revised and enhanced by Christian Grail https://www.linkedin.com/in/cgrail
-- Revised by Arwed Mett
+- Revised by Arwed Mett https://www.linkedin.com/in/arwed-mett-4b5784123/
