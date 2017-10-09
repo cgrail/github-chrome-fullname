@@ -38,8 +38,6 @@ export class NodeReplacer {
 	}
 
 	async replace(element: Node) {
-		console.info("start replacing")
-		const start = Date.now()
 		const walker = document.createTreeWalker(element, window.NodeFilter.SHOW_TEXT)
 		const pending = []
 		let x = 0
@@ -52,19 +50,6 @@ export class NodeReplacer {
 			pending.push(this._replaceNode(currentNode))
 		}
 		await Promise.all(pending)
-		console.info(`finished replacing in ${ Date.now() - start } milliseconds`)
-	}
-
-	_blurNode({ parentElement }: Node) {
-		if(parentElement instanceof window.HTMLElement) {
-			parentElement.style.filter = "blur(0.8px)"
-		}
-	}
-
-	_unblurNode({ parentElement }: Node) {
-		if(parentElement instanceof window.HTMLElement) {
-			parentElement.style.filter = ""
-		}
 	}
 
 	async _replaceNode(node: Node) {
@@ -79,14 +64,18 @@ export class NodeReplacer {
 		for(const id of ids) {
 			pending.push(this._replaceId(id, node))
 		}
-		this._blurNode(node)
 		await Promise.all(pending)
-		this._unblurNode(node)
 	}
 
 	async _replaceId(id: string, node: Node) {
 		const user = await this._api.getUser(id)
-		node.nodeValue = node.nodeValue.replace(id, user.getName())
+		if(!user) {
+			return;
+		}
+		let userName = user.getName()
+		if(userName && userName != "") {
+			node.nodeValue = node.nodeValue.replace(id, userName)
+		}
 	}
 }
 
