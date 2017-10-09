@@ -70,7 +70,7 @@ export class NodeReplacer {
 	async _replaceId(id: string, node: Node) {
 		const user = await this._api.getUser(id)
 		if(!user) {
-			return;
+			return
 		}
 		let userName = user.getName()
 		if(userName && userName != "") {

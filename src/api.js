@@ -10,9 +10,9 @@ export class User {
 
 	getName(): string {
 		if (this._user && this._user.name) {
-			return this._user.name;
+			return this._user.name
 		}
-		return "";
+		return ""
 	}
 
 	getId(): string {
