@@ -9,10 +9,12 @@
         ],
         "matches": [
             "https://github.wdf.sap.corp/*",
-            "https://huboard.mo.sap.corp/*"
+            "https://huboard.mo.sap.corp/*",
+            "https://github.infra.hana.ondemand.com/*"
         ],
         "exclude_matches": [
-        	"https://github.wdf.sap.corp/pages*"
+        	"https://github.wdf.sap.corp/pages*",
+            "https://github.infra.hana.ondemand.com/pages/*"
         ]
     }],
     "permissions": [
