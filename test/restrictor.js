@@ -101,4 +101,12 @@ describe("restrictor", () => {
 
 		assert(restrictor2.check(e))
 	})
+
+	it("should not replace things inside a signeds commit GPG key ID", () => {
+		const e = elem`<div class="signed-commit-footer">
+			<span class="d-block">GPG key ID: <span class="text-gray">36095d000007B025</span></span>
+		</div>`
+
+		assert(restrictor.check(e) == false)
+	})
 })
