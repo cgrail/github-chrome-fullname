@@ -73,7 +73,7 @@ export default class Restrictor {
 			// Comment for fork: Add more commits by pushing to the
 			.restrict(inside(className("merge-pr-more-commits")))
 			// Signed commit popup: GPG key ID
-			.restrct(inside(className("signed-commit-footer")))
+			.restrict(inside(className("signed-commit-footer")))
 			// Exclude protip
 			.restrict(inside(className("protip")))
 			// exclude github blobs
