@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npm run build -- --watch",
     "build": "webpack --config webpack.config.js",
-    "test": "npm run lint && npm run mocha",
+    "test": "npm run build && npm run lint && npm run mocha",
     "mocha": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/*.ts",
     "clean": "rm -rf build",
     "flow": "flow",
