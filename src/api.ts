@@ -5,7 +5,7 @@ interface GitHubUser {
     name: string;
 }
 
-export class User {   
+export class User {
     private user: GitHubUser
 
     public constructor(user: GitHubUser) {
@@ -25,11 +25,20 @@ export class User {
 }
 
 export class API3 {
+    private cache: Map<string, Promise<User>>
 
     public constructor() {
+        this.cache = new Map()
     }
 
     public async getUser(id: string, root: string): Promise<User> {
+        if (!this.cache.has(`${id}-${root}`)) {
+            this.cache.set(`${id}-${root}`, this.getUserFromGitHub(id, root))
+        }
+        return this.cache.get(`${id}-${root}`) as Promise<User>
+    }
+
+    public async getUserFromGitHub(id: string, root: string): Promise<User> {
         let data: GitHubUser = {
             id: id,
             name: id
