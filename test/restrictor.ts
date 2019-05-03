@@ -20,28 +20,28 @@ describe("restrictor", () => {
 	})
 
 	it("normal element should be allowed to replace", () => {
-		const e = elem`<div>Ragnar Lothbrok</div>`
+		const e = elem([`<div>Ragnar Lothbrok</div>`])
 		assert(restrictor.check(e))
 	})
 
 	it("normal element should be allowed to replace", () => {
-		const e = elem`<span class="css-truncate-target" id="simpleUserId">d000007</span>`
+		const e = elem([`<span class="css-truncate-target" id="simpleUserId">d000007</span>`])
 		assert(restrictor.check(e))
 	})
 
 	it("not allowed to replace an element which is part of a formContent.", () => {
-		const form = elem`<form class="form-content"></form>`
-		const label = elem`<span>Place</span>`
-		const target = elem`<span>Karthegard</span>`
+		const form = elem([`<form class="form-content"></form>`])
+		const label = elem([`<span>Place</span>`])
+		const target = elem([`<span>Karthegard</span>`])
 		form.appendChild(label)
 		form.appendChild(target)
 		assert(restrictor.check(target) === false)
 	})
 
 	it("should not be allowed to replace an element which is a vcard", () => {
-		const parent = elem`<div class="commit-meta vcard-username"></div>`
+		const parent = elem([`<div class="commit-meta vcard-username"></div>`])
 
-		const target = elem`<a
+		const target = elem([`<a
 				href="/d000007/testGithubSample/commits/master?author=d000007"
 				aria-label="View all commits by Jesse James"
 				class="commit-author tooltipped tooltipped-s"
@@ -49,11 +49,11 @@ describe("restrictor", () => {
 				id="vcardUserName"
 				>
 				d000007
-			</a>`
+			</a>`])
 
-		const time = elem`<time datetime="2015-03-07T01:40:18Z" is="relative-time">
+		const time = elem([`<time datetime="2015-03-07T01:40:18Z" is="relative-time">
 			Mar 6, 2015
-		</time>`
+		</time>`])
 
 		parent.appendChild(target)
 		parent.appendChild(time)
@@ -61,7 +61,7 @@ describe("restrictor", () => {
 	})
 
 	it("should not be allowed to replace content which is intended for the command line", () => {
-		const parent = elem`<pre
+		const parent = elem([`<pre
 			class="copyable-terminal-content
 			js-selectable-text
 			js-zeroclipboard-target"
@@ -72,7 +72,7 @@ describe("restrictor", () => {
 					https://github.corporate/d000007/TestProject.git
 				</span>
 				 master
-		</pre>`
+		</pre>`])
 
 		const child = parent.children[0]
 
@@ -81,18 +81,18 @@ describe("restrictor", () => {
 	})
 
 	it("should allow to replace user id in the comment block of the pull request code tab", () => {
-		const e = elem`<a
+		const e = elem([`<a
 			href="/D012345"
 			class="author link-gray-dark"
 			id="testAuthorLink">
 				Floki
-		</a>`
+		</a>`])
 
 		assert(restrictor.check(e))
 	})
 
 	it("every author in a link should be replaced even though it is restricted", () => {
-		const e = elem`<div>not restricted</div>`
+		const e = elem([`<div>not restricted</div>`])
 		const restrictor2 = new Restrictor
 
 		restrictor2
@@ -103,10 +103,11 @@ describe("restrictor", () => {
 	})
 
 	it("should not replace things inside a signeds commit GPG key ID", () => {
-		const e = elem`<div class="signed-commit-footer">
+		const e = elem([`<div class="signed-commit-footer">
 			<span class="d-block">GPG key ID: <span class="text-gray">36095d000007B025</span></span>
-		</div>`
+		</div>`])
 
 		assert(restrictor.check(e) == false)
 	})
+	
 })

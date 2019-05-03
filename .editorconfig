@@ -3,10 +3,12 @@ root = true
 [*]
 end_of_line = lf
 
-[src/**.js]
+[src/**.ts]
 charset = utf-8
-indent_style = tab
+indent_style = space
+indent_size = 4
 
-[test/**.js]
+[test/**.ts]
 charset = utf-8
-indent_style = tab
+indent_style = space
+indent_size = 4
