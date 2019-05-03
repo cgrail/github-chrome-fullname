@@ -1,7 +1,7 @@
-// @flow
 import "babel-polyfill"
 import "isomorphic-fetch"
-import jsdom from "jsdom"
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 class MutationRecord {
 	target: Node
@@ -27,7 +27,7 @@ class MutationObserver {
 	}
 	_intersept(name: string, doc: any) {
 		const old = doc[name].bind(doc)
-		doc[name] = (child, ...args) => {
+		doc[name] = (child: Element, ...args: any[]) => {
 			const record = new MutationRecord(child)
 			this._handler([ record ])
 			old(child, ...args)
@@ -37,10 +37,15 @@ class MutationObserver {
 
 
 if(typeof document === "undefined") {
-    global.document = jsdom.jsdom("<html><body></body></html>")
-    global.window = document.defaultView
-    global.navigator = window.navigator
-	global.window.MutationObserver = MutationObserver
+	const dom = new JSDOM("<html><body></body></html>", { url: "https://github.wdf.sap.corp"})
+	// @ts-ignore
+	global.document = dom.window.document
+	
+//	global.MutationObserver = MutationObserver
+	// @ts-ignore
+	global.window = dom.window
+	// @ts-ignore
+	global.navigator = dom.window.navigator
 }
 
 
