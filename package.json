@@ -10,8 +10,8 @@
   "scripts": {
     "start": "npm run build -- --watch",
     "build": "webpack --config webpack.config.js",
-    "test": "npm run lint && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' node_modules/.bin/mocha --require ts-node/register test/*.ts",
-    "mocha": "mocha --compilers js:babel-register --timeout 1500 --slow 30 --use_strict",
+    "test": "npm run lint && npm run mocha",
+    "mocha": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/*.ts",
     "clean": "rm -rf build",
     "flow": "flow",
     "lint": "eslint --ext ts src",
