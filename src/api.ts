@@ -52,7 +52,9 @@ export class API3 {
             const searchRegex = new RegExp(`<title>${id} \\((.*)\\)<\\/title>`, "g")
             const match = searchRegex.exec(responseText)
             if (match) {
-                data.name = match[1] || data.name
+                // remove UserID from name, if it contains it.
+                const fixedName = match[1].replace(id,"").trim()
+                data.name = fixedName || data.name
             }
         } catch (e) {
             console.log(e)

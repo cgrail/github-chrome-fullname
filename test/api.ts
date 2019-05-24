@@ -18,7 +18,7 @@ describe("api", () => {
 			.resolves(response)
 
 		// Mock the text resolve function to not run into the problem of having an already usedBody
-		sinon.stub(response, "text").resolves("<title>D000000 (Max (Hans) Mustermann)</title>")
+		sinon.stub(response, "text").resolves("<title>D000000 (Max (Hans) Mustermann D000000)</title>")
 	})
 
 	afterEach(async function () {
