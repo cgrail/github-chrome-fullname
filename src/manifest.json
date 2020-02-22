@@ -1,7 +1,7 @@
 {
-    "name": "Name instead of UserId for SAP GitHub",
-    "description": "Display full name instead of UserId for SAP GitHub Enterprise instance",
-    "version": "0.5.0",
+    "name": "Name instead of UserId for SAP GitHub & Autologin",
+    "description": "Display full name instead of UserId for SAP GitHub Enterprise instance & perform Autologin via external Identity Provider if logged out",
+    "version": "0.6.0",
     "manifest_version": 2,
     "content_scripts": [{
         "js": [
