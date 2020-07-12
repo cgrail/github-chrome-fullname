@@ -82,6 +82,10 @@ export default class Restrictor {
             .restrict(inside(className("copyable-terminal")))
             .restrict(inside(className("js-live-clone-url")))
             .restrict(inside(className("vcard-username")))
+            // Preserves branch names in repository branch dropdown with names that contain user id
+            .restrict(inside(and(tagName("A"), className("select-menu-item"))))
+            // Preserves branch names in branches view of repository at repo/branches
+            .restrict(inside(and(tagName("A"), className("branch-name"))))
             .except(inside(and(tagName("A"), className("author"))))
     }
 
