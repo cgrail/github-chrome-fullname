@@ -49,7 +49,7 @@ export class API3 {
                 cache: "force-cache"
             })
             const responseText = await response.text()
-            const searchRegex = new RegExp(`<title>${id} \\((.*)\\)<\\/title>`, "g")
+            const searchRegex = new RegExp(`<title>${id} \\((.*)\\)(?: · GitHub)?<\\/title>`, "g")
             const match = searchRegex.exec(responseText)
             if (match) {
                 // remove UserID from name, if it contains it.
