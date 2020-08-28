@@ -86,6 +86,8 @@ export default class Restrictor {
             .restrict(inside(and(tagName("A"), className("select-menu-item"))))
             // Preserves branch names in branches view of repository at repo/branches
             .restrict(inside(and(tagName("A"), className("branch-name"))))
+            // Preserves in delete dialog
+            .restrict(inside(className("Box-body")))
             .except(inside(and(tagName("A"), className("author"))))
     }
 
