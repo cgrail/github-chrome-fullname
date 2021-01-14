@@ -9,7 +9,8 @@
         "index.bundle.js"
       ],
       "matches": [
-        "https://zenhub.mo.sap.corp/app/*"
+        "https://zenhub.mo.sap.corp/app/*",
+        "https://zenhub.tools.sap.corp/app/*"
       ]
     }
   ],
