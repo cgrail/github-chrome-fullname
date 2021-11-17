@@ -45,6 +45,8 @@ if(typeof document === "undefined") {
 	// @ts-ignore
 	global.window = dom.window
 	// @ts-ignore
+	global.localStorage=dom.window.localStorage
+	// @ts-ignore
 	global.navigator = dom.window.navigator
 }
 

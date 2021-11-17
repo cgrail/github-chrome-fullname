@@ -26,14 +26,28 @@ export class User {
 
 export class API3 {
     private cache: Map<string, Promise<User>>
+    private localStorageKey = 'GITHUB_FULLNAME_CACHE'
+    private newEntries: Record<string, User> = {}
 
     public constructor() {
         this.cache = new Map()
+        if (localStorage.getItem(this.localStorageKey)) {
+            try {
+                const savedValues = JSON.parse(localStorage.getItem(this.localStorageKey) || '{}')
+                for (const userkey in savedValues) {
+                    this.cache.set(userkey, Promise.resolve(new User(savedValues[userkey].user)))
+                }
+            } catch (error) { }
+        }
     }
 
     public async getUser(id: string, root: string): Promise<User> {
         if (!this.cache.has(`${id}-${root}`)) {
-            this.cache.set(`${id}-${root}`, this.getUserFromGitHub(id, root))
+            this.cache.set(`${id}-${root}`, this.getUserFromGitHub(id, root).then((user): User => {
+                this.newEntries[`${id}-${root}`] = user
+                this.saveInLocalStorage()
+                return user
+            }))
         }
         return this.cache.get(`${id}-${root}`) as Promise<User>
     }
@@ -61,5 +75,26 @@ export class API3 {
             console.error(`Could not get user ${id}`)
         }
         return new User(data)
+    }
+
+    // Flag to throttle saving in localStorage by 5 sec.
+    private scheduledForSync = false;
+
+    private saveInLocalStorage(): void {
+        if (!this.scheduledForSync) {
+            this.scheduledForSync = true;
+
+            setTimeout((): void => {
+                this.scheduledForSync = false;
+                const cachedEntries = {};
+                try {
+                    Object.assign(cachedEntries, JSON.parse(localStorage.getItem(this.localStorageKey) || '{}'))
+                } catch { }
+                Object.assign(cachedEntries, this.newEntries)
+
+                localStorage.setItem(this.localStorageKey, JSON.stringify(cachedEntries))
+                this.newEntries = {}
+            }, 5000);
+        }
     }
 }
