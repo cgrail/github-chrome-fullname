@@ -37,7 +37,7 @@ describe("replacer", () => {
 	before(async function() {
 		fetchStub = sinon.stub(global, "fetch")
 
-		const response = new Response("<title>d000007 (James Bond)</title>", {
+		const response = new Response("<title>d000007 (James O'Bond)</title>", {
 			status: 200,
 			headers: {
 				"Content-type": "text/html; charset=utf-8"
@@ -49,7 +49,7 @@ describe("replacer", () => {
 			.resolves(response)
 
 			// Mock the text resolve function to not run into the problem of having an already usedBody
-			sinon.stub(response, "text").resolves("<title>d000007 (James Bond)</title>")
+			sinon.stub(response, "text").resolves("<title>d000007 (James O&#39;Bond)</title>")
 	})
 
 	after(() => {
