@@ -74,8 +74,15 @@ export class NodeReplacer {
         }
         let userName = user.getName()
         if(userName && userName != "" && node.nodeValue ) {
-            node.nodeValue = node.nodeValue.replace(id, userName)
+            node.nodeValue = node.nodeValue.replace(id, this.decodeHTMLEntities(userName))
         }
+    }
+
+    // Solution from here: https://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery/1395954#1395954
+    private decodeHTMLEntities(encodedString: string) {
+        const textArea = document.createElement('textarea');
+        textArea.innerHTML = encodedString;
+        return textArea.value;
     }
 }
 
