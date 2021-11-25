@@ -1,7 +1,7 @@
 {
     "name": "Name instead of UserId for SAP GitHub",
     "description": "Display full name instead of UserId for SAP GitHub Enterprise instance & perform auto login via IDP if logged out",
-    "version": "0.6.3",
+    "version": "0.6.4",
     "manifest_version": 2,
     "content_scripts": [
         {
