@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/cgrail/github-chrome-fullname",
   "devDependencies": {
+    "@types/chrome": "0.0.164",
     "@types/jsdom": "^12.2.3",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.13.8",
