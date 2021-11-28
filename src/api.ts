@@ -68,10 +68,7 @@ export class API3 {
             name: id
         }
         try {
-            const response = await fetch(`https://${root}/${id}`, {
-                method: "GET",
-                cache: "force-cache"
-            })
+            const response = await fetch(`https://${root}/${id}`)
             const responseText = await response.text()
             const searchRegex = new RegExp(`<title>${id} \\((.*)\\)<\\/title>`, "g")
             const match = searchRegex.exec(responseText)
