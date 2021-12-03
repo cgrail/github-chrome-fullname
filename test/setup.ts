@@ -21,7 +21,7 @@ class MutationObserver {
 	}
 	_interseptAll(name: string, doc: any) {
 		this._intersept(name, doc)
-		for(const child of doc.children) {
+		for (const child of doc.children) {
 			this._interseptAll(name, child)
 		}
 	}
@@ -29,23 +29,39 @@ class MutationObserver {
 		const old = doc[name].bind(doc)
 		doc[name] = (child: Element, ...args: any[]) => {
 			const record = new MutationRecord(child)
-			this._handler([ record ])
+			this._handler([record])
 			old(child, ...args)
 		}
 	}
 }
 
 
-if(typeof document === "undefined") {
-	const dom = new JSDOM("<html><body></body></html>", { url: "https://github.wdf.sap.corp"})
+if (typeof document === "undefined") {
+	const dom = new JSDOM("<html><body></body></html>", { url: "https://github.wdf.sap.corp" })
 	// @ts-ignore
 	global.document = dom.window.document
-	
-//	global.MutationObserver = MutationObserver
+
+	//	global.MutationObserver = MutationObserver
 	// @ts-ignore
 	global.window = dom.window
 	// @ts-ignore
 	global.navigator = dom.window.navigator
+	
+	//Dummy Implementation of chrome storage
+	// @ts-ignore
+	global.chrome = {
+		storage: {
+			local: {
+				cache: {},
+				set(obj: Record<any, any>) {
+					Object.assign(this.cache, obj)
+				},
+				get(_: any, cb: (response: Record<any, any>) => void) {
+					cb(this.cache)
+				}
+			}
+		}
+	}
 }
 
 

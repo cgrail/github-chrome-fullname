@@ -25,17 +25,41 @@ export class User {
 }
 
 export class API3 {
-    private cache: Map<string, Promise<User>>
+    private userMap: Map<string, Promise<User>>
+    private readonly chromeStorageExpiry = 1000 * 60 * 60 * 24 * 7; // 1 week
+
 
     public constructor() {
-        this.cache = new Map()
+        this.userMap = new Map()
+
+        // Restoring cached values.
+        chrome.storage.local.get(null, (cachedValues): void => {
+            const currentTime = Date.now()
+            for (const userkey in cachedValues) {
+                const { data, created } = cachedValues[userkey];
+                if (created + this.chromeStorageExpiry > currentTime) {
+                    this.userMap.set(userkey, Promise.resolve(new User(data.user)))
+                }
+            }
+        })
     }
 
     public async getUser(id: string, root: string): Promise<User> {
-        if (!this.cache.has(`${id}-${root}`)) {
-            this.cache.set(`${id}-${root}`, this.getUserFromGitHub(id, root))
+        const userKey = `${id}-${root}`
+        if (!this.userMap.has(userKey)) {
+            this.userMap.set(userKey, this.getUserFromGitHub(id, root).then((user): User => {
+                if ((user.getName() + '').trim().length) {
+                    chrome.storage.local.set({
+                        [userKey]: {
+                            created: Date.now(),
+                            data: user
+                        }
+                    })
+                }
+                return user
+            }))
         }
-        return this.cache.get(`${id}-${root}`) as Promise<User>
+        return this.userMap.get(userKey) as Promise<User>
     }
 
     public async getUserFromGitHub(id: string, root: string): Promise<User> {
@@ -50,7 +74,7 @@ export class API3 {
             const match = searchRegex.exec(responseText)
             if (match) {
                 // remove UserID from name, if it contains it.
-                const fixedName = match[1].replace(id,"").trim()
+                const fixedName = match[1].replace(id, "").trim()
                 data.name = fixedName || data.name
             }
         } catch (e) {
