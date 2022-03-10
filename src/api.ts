@@ -48,7 +48,7 @@ export class API3 {
         const userKey = `${id}-${root}`
         if (!this.userMap.has(userKey)) {
             this.userMap.set(userKey, this.getUserFromGitHub(id, root).then((user): User => {
-                if ((user.getName() + '').trim().length) {
+                if ((user.getName() + '').trim().length && user.getName() !== user.getId()) {
                     chrome.storage.local.set({
                         [userKey]: {
                             created: Date.now(),
