@@ -8,6 +8,7 @@ const api = new API3()
 const replacer = new NodeReplacer(api)
 
 replacer.watch(document.body)
+replacer.watch(document.querySelector('title') as Element)
 
 function triggerRelogin(): void {
     // Check if the user is logged in, if not the body has the css class 'logged-out'
