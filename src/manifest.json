@@ -10,11 +10,13 @@
             ],
             "matches": [
                 "https://github.wdf.sap.corp/*",
-                "https://github.tools.sap/*"
+                "https://github.tools.sap/*",
+                "https://github.concur.com/*"
             ],
             "exclude_matches": [
                 "https://github.wdf.sap.corp/pages*",
-                "https://pages.github.tools.sap/*"
+                "https://pages.github.tools.sap/*",
+                "https://pages.github.concur.com/*"
             ]
         }
     ],
